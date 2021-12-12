@@ -6,54 +6,60 @@ const baseID = process.env.ENV === "DEV" ? process.env.AT_BASE_DEV : ''
 const base = new Airtable({apiKey: key}).base(baseID)
 
 
-// Project Model
-const Project = require('../../models/Project')
+// File Model
+const File = require('../../models/File')
 
 
-// @route   GET api/projects
-// @desc    get all Projects
+// @route   GET api/files
+// @desc    get all Files
 // @access  Public
 router.get('/', (req, res) => {
-    Project.find()
-        .sort( { dueDate: -1 })
-        .then(projects => res.json(projects))
+    File.find()
+        .sort( { client: 1 })
+        .then(files => res.json(files))
 })
 
-// @route   POST api/projects
-// @desc    create a new project
+// @route   POST api/files
+// @desc    post a new file to mongo
 // @access  Public
 router.post('/', (req, res) => {
-    var newProject = new Project(req.body)
+    var newFile = new File(req.body)
 
-    newProject.save()
-        .then((project) => {
-            res.json(project)
-            res.send(`${req.body.projectName} added successfully`)
+    newFile.save()
+        .then((file) => {
+            res.json({
+                message: `"${req.body.title}" added successfully`,
+                content: file
+            })
         })
         .catch(err => res.send(err))
 })
 
-// @route   DELETE api/projects/:id
-// @desc    delete a project
+// @route   DELETE api/files/:id
+// @desc    delete a file
 // @access  Public
 router.delete('/:id', (req, res) => {
-    Project.findById(req.params.id)
-        .then(project => project.remove().then(() => res.json({success: true})))
+    File.findById(req.params.id)
+        .then(file => file.remove().then(() => res.json({success: true})))
         .catch(err => res.status(404).json({success: false}))
 }) 
 
-// @route   GET api/projects/at/:email
+// @route   GET api/files/at/:email
 // @desc    Get all projects for a specific client from airtable (email address as key)
 // @access  Public
-router.get('/at/:email', (req, res) => {
+router.get('/at/:email/:project', (req, res) => {
     var results = []
 
     //This syntax is from airtable API documentation
     //eachPage() accepts a function to be applied to each page of the AT table,
     //then a function to execute after completion. This is evidently how they
     //recommend handling async requests 
-    base('Projects').select({
-        filterByFormula: `REGEX_MATCH({Client Email}, "^${req.params.email}")`,
+    base('File').select({
+        filterByFormula: 
+            `AND(
+                REGEX_MATCH({Client Email}, "^${req.params.email}"),
+                REGEX_MATCH({Project}, "^${req.params.project}")
+            )`,
         view: "Grid view"
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach((record) => {

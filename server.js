@@ -4,6 +4,7 @@ const bodyParser = require('body-parser')
 require('dotenv').config()
 
 const projectsRouter = require('./routes/api/projects')
+const filesRouter = require('./routes/api/files')
 
 
 const app = express()
@@ -21,6 +22,7 @@ mongoose.connect(db)
 
 //Use Routes
 app.use('/api/projects', projectsRouter)
+app.use('/api/files', filesRouter)
 
 const port = process.env.PORT || 5000
 

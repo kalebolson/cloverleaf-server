@@ -2,12 +2,16 @@ const express = require('express')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 require('dotenv').config()
-
+const cors = require('cors')
 const projectsRouter = require('./routes/api/projects')
 const filesRouter = require('./routes/api/files')
+const miscRouter = require('./routes/api/misc')
 
 
 const app = express()
+
+// Enable cors
+app.use(cors())
 
 // Bodyparser middleware
 app.use(bodyParser.json())
@@ -23,6 +27,13 @@ mongoose.connect(db)
 //Use Routes
 app.use('/api/projects', projectsRouter)
 app.use('/api/files', filesRouter)
+app.use('/api/misc', miscRouter)
+
+// Ping
+app.get('/', (req, res)=> {
+    res.json("Online")
+    console.log("pinged")
+})
 
 const port = process.env.PORT || 5000
 

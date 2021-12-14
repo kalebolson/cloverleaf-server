@@ -58,7 +58,7 @@ router.get('/at/:email', (req, res) => {
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach((record) => {
             results.push(record.fields)
-            console.log(results)
+            
         })
         fetchNextPage()   
     }, (err) => {

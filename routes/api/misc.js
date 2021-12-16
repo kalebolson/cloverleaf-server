@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Airtable = require('airtable')
+const log = require('../../logger')
 
 const key = process.env.ENV === "DEV" ? process.env.AT_KEY_DEV : ''
 const baseID = process.env.ENV === "DEV" ? process.env.AT_BASE_DEV : ''
@@ -12,19 +13,17 @@ router.get('/name/:email', (req, res) => {
         maxRecords: 1,
         filterByFormula: `REGEX_MATCH({Client Email}, "^${req.params.email}")`
     }).eachPage(function page(records, fetchNextPage) {
-        console.log("made it to records")
         records.forEach((record) => {
             name = record.fields.Client;
-            console.log(name)
         })
         fetchNextPage()   
     }, (err) => {
         if (err) {
-            console.log(err)
+            log('API-ERR', err)
             res.json(err)
         }
         else {
-            console.log("Success:", req.headers)
+            log('API-SUCC', name)
             res.json(name)
         }
     })

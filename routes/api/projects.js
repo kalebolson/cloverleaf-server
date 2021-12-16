@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Airtable = require('airtable')
+const log = require('../../logger')
 
 const key = process.env.ENV === "DEV" ? process.env.AT_KEY_DEV : ''
 const baseID = process.env.ENV === "DEV" ? process.env.AT_BASE_DEV : ''
@@ -16,7 +17,14 @@ const Project = require('../../models/Project')
 router.get('/', (req, res) => {
     Project.find()
         .sort( { dueDate: -1 })
-        .then(projects => res.json(projects))
+        .then(projects => {
+            res.json(projects)
+            log('API-SUCC', projects)
+        })
+        .catch(err => {
+            res.json(err)
+            log('API-ERR', err)
+        })
 })
 
 // @route   POST api/projects
@@ -27,10 +35,17 @@ router.post('/', (req, res) => {
 
     newProject.save()
         .then((project) => {
-            res.json(project)
-            res.send(`${req.body.projectName} added successfully`)
+            const resObj = {
+                message: `${req.body.projectName} added successfully`,
+                content: project
+            }
+            res.json(resObj)
+            log('API-SUCC', resObj)
         })
-        .catch(err => res.send(err))
+        .catch(err => {
+            res.send(err)
+            log('API-ERR', err)
+        })
 })
 
 // @route   DELETE api/projects/:id
@@ -38,8 +53,18 @@ router.post('/', (req, res) => {
 // @access  Public
 router.delete('/:id', (req, res) => {
     Project.findById(req.params.id)
-        .then(project => project.remove().then(() => res.json({success: true})))
-        .catch(err => res.status(404).json({success: false}))
+        .then(project => project.remove().then(() => {
+            const resObj = {
+                message: `"${req.params.id}" removed successfully`,
+                content: file
+            }
+            res.json(resObj)
+            log('API-SUCC', resObj)
+        }))
+        .catch(err => {
+            res.status(404).json({success: false})
+            log('API-ERR', resObj)
+        })
 }) 
 
 // @route   GET api/projects/at/:email
@@ -63,12 +88,12 @@ router.get('/at/:email', (req, res) => {
         fetchNextPage()   
     }, (err) => {
         if (err) {
-            console.log(err)
             res.json(err)
+            log('API-ERR', err)
         }
         else {
-            console.log(results)
             res.json(results)
+            log('API-SUCC', results)
         }
     })
 })

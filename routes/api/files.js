@@ -1,5 +1,6 @@
 const router = require('express').Router()
 const Airtable = require('airtable')
+const log = require('../../logger')
 
 const key = process.env.ENV === "DEV" ? process.env.AT_KEY_DEV : ''
 const baseID = process.env.ENV === "DEV" ? process.env.AT_BASE_DEV : ''
@@ -27,12 +28,17 @@ router.post('/', (req, res) => {
 
     newFile.save()
         .then((file) => {
-            res.json({
+            const resObj = {
                 message: `"${req.body.title}" added successfully`,
                 content: file
-            })
+            }
+            res.json(resObj)
+            log('API-SUCC', resObj)
         })
-        .catch(err => res.send(err))
+        .catch(err => {
+            res.send(err)
+            log('API-ERR', err)
+        })
 })
 
 // @route   DELETE api/files/:id
@@ -40,8 +46,18 @@ router.post('/', (req, res) => {
 // @access  Public
 router.delete('/:id', (req, res) => {
     File.findById(req.params.id)
-        .then(file => file.remove().then(() => res.json({success: true})))
-        .catch(err => res.status(404).json({success: false}))
+        .then(file => file.remove().then(() => {
+            const resObj = {
+                message: `"${req.params.id}" removed successfully`,
+                content: file
+            }
+            res.json(resObj)
+            log('API-SUCC', resObj)
+        }))
+        .catch(err => {
+            log('API-ERR', err)
+            res.status(404).json({success: false})
+        })
 }) 
 
 
@@ -65,17 +81,16 @@ router.get('/at/:email/:project', (req, res) => {
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach((record) => {
             results.push(record.fields)
-            console.log(results)
         })
         fetchNextPage()   
     }, (err) => {
         if (err) {
-            console.log(err)
             res.json(err)
+            log('API-ERR', err)
         }
         else {
-            console.log(results)
             res.json(results)
+            log('API-SUCC', results)
         }
     })
 })

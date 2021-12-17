@@ -2,8 +2,8 @@ const router = require('express').Router()
 const Airtable = require('airtable')
 const log = require('../../logger')
 
-const key = process.env.ENV === "DEV" ? process.env.AT_KEY_DEV : ''
-const baseID = process.env.ENV === "DEV" ? process.env.AT_BASE_DEV : ''
+const key = process.env.ENV === "DEV" ? process.env.AT_KEY_DEV : process.env.AT_KEY_PROD
+const baseID = process.env.ENV === "DEV" ? process.env.AT_BASE_DEV : process.env.AT_KEY_PROD
 const base = new Airtable({apiKey: key}).base(baseID)
 
 

@@ -31,7 +31,7 @@ app.use('/api/files', filesRouter)
 app.use('/api/misc', miscRouter)
 
 // Ping
-app.get('/', (req, res)=> {
+app.get('/ping', (req, res)=> {
     res.json("Online")
     console.log("pinged")
 })

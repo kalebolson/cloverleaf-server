@@ -93,7 +93,7 @@ router.get('/at/:email', (req, res) => {
         }
         else {
             res.json(results)
-            log('API-SUCC', results)
+            log('API-SUCC', JSON.stringify(results))
         }
     })
 })

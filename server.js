@@ -7,7 +7,7 @@ const projectsRouter = require('./routes/api/projects')
 const filesRouter = require('./routes/api/files')
 const miscRouter = require('./routes/api/misc')
 const log = require('./logger')
-
+const path = require('path')
 
 const app = express()
 
@@ -35,6 +35,16 @@ app.get('/', (req, res)=> {
     res.json("Online")
     console.log("pinged")
 })
+
+// Serve static assets if in prod
+if(process.env.ENV === "PROD") {
+    // Set static folder
+    app.use(express.static('client/build'))
+
+    app.get('*', (req, res) => {
+        res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'))
+    })
+}
 
 const port = process.env.PORT || 5000
 

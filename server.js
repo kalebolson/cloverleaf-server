@@ -40,7 +40,7 @@ log ('DEBUG', `Current ENV value = ${process.env.ENV}`)
 if(process.env.ENV === "PROD") {
     // Set static folder
     app.use(express.static('client/build'))
-    log(`Using static build folder in ${process.env.ENV} env`)
+    log('STATIC',`Using static build folder in ${process.env.ENV} env`)
 
     app.get('*', (req, res) => {
         log('STATIC', `Served app on port ${port}`)

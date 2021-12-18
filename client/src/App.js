@@ -47,13 +47,24 @@ function App() {
 
   const fetchName = async () => {
     const res = await fetch(`/api/misc/name/${userID}`)
-    const data = await res.json()
-    return data
+    var name = ''
+    try{
+      name = await res.json()
+    } catch (err) {
+      console.log(err)
+    }
+    return name
   }
   const fetchProjects = async() => {
     const res = await fetch(`api/projects/at/${userID}`)
     const data = await res.json()
-    const projNames = data.map(obj => obj['Project Name'])
+    var projNames = []
+    try {
+      projNames = data.map(obj => obj['Project Name'])
+    }
+    catch (err) {
+      console.log(err)
+    }
 
     return projNames
   }

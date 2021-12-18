@@ -3,7 +3,7 @@ const Airtable = require('airtable')
 const log = require('../../logger')
 
 const key = process.env.ENV === "DEV" ? process.env.AT_KEY_DEV : process.env.AT_KEY_PROD
-const baseID = process.env.ENV === "DEV" ? process.env.AT_BASE_DEV : process.env.AT_KEY_PROD
+const baseID = process.env.ENV === "DEV" ? process.env.AT_BASE_DEV : process.env.AT_BASE_PROD
 const base = new Airtable({apiKey: key}).base(baseID)
 
 
@@ -72,7 +72,6 @@ router.delete('/:id', (req, res) => {
 // @access  Public
 router.get('/at/:email', (req, res) => {
     var results = []
-
     //This syntax is from airtable API documentation
     //eachPage() accepts a function to be applied to each page of the AT table,
     //then a function to execute after completion. This is evidently how they

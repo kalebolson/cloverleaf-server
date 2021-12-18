@@ -1,6 +1,12 @@
 
 function Welcome({ clientName }) {
-    const firstName = clientName && clientName.split(' ')[0]
+    var firstName = clientName ? clientName : ''
+    try {
+        firstName = clientName && clientName.split(' ')[0]
+    }
+    catch (err) {
+        console.log(err)
+    }
     
     return (
         <h1 className='welcome-header'>Welcome, {firstName}!</h1>

@@ -35,7 +35,7 @@ app.get('/ping', (req, res)=> {
     res.json("Online")
     console.log("pinged")
 })
-
+log ('DEBUG', `Current ENV value = ${process.env.ENV}`)
 // Serve static assets if in prod
 if(process.env.ENV === "PROD") {
     // Set static folder

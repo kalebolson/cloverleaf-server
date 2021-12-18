@@ -4,7 +4,8 @@
   "description": "Full MERN stack solution for CL clients",
   "main": "server.js",
   "scripts": {
-    "start": "set ENV=PROD&& node server.js",
+    "start": "node server.js",
+    "proddebug": "set ENV=PROD&& node server.js",
     "server": "set ENV=DEV&& nodemon server.js",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },

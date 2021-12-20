@@ -4,10 +4,14 @@ function ProjectDetails({ project }) {
         var status = project['Project Status'] || 'N/A'
         var type = project['Type'] || 'N/A'
         var fileCount = project['File Count'] || 'N/A'
-        var dueDate = project['Due Date'] || 'N/A'
+        var dueDate = parseDate(project['Due Date']) || 'N/A'
         var daysLeft = project['Days Until Due'] || ''
         var notes = project['Notes'] || '(No Notes)'
     
+        function parseDate(dueDate){
+            const list = dueDate.split('-')
+            return list[1]+'/'+list[2]+'/'+list[0]
+        }
     
         return (
             <div class="project-details">

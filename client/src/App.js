@@ -32,18 +32,27 @@ function App() {
     }
   ]
 
-  //Setting States
+  //Create States
   const [project, setProject] = useState()
-  const [projects, setProjects] = useState(["first project", "new album", "music video"])
+  const [projects, setProjects] = useState([])
   const [clientName, setClientName] = useState()
   const [files, setFiles] = useState(fileplaceholder)
 
 
   //Calls/Functions
-  function changeProject(event) {
-    setProject(event.target.value)
-    console.log(project)
+  async function changeProject(event) {
+    const project = await getProjectByName(event.target.value)
+    setProject(project)
   }
+
+  async function getProjectByName(name) {
+    var project = await projects.find(project => {
+      return project['Project Name'] === name
+    })
+    return project
+  }
+
+
 
   const fetchName = async () => {
     const res = await fetch(`/api/misc/name/${userID}`)
@@ -58,15 +67,7 @@ function App() {
   const fetchProjects = async() => {
     const res = await fetch(`api/projects/at/${userID}`)
     const data = await res.json()
-    var projNames = []
-    try {
-      projNames = data.map(obj => obj['Project Name'])
-    }
-    catch (err) {
-      console.log(err)
-    }
-
-    return projNames
+    return data
   }
 
   // Getting name and projects with useeffect with empty bracket dependencies
@@ -79,20 +80,25 @@ function App() {
     const getProjects = async () => {
       const projectsFromServer = await fetchProjects()
       setProjects(projectsFromServer)
+      setProject(projectsFromServer[0])
     }
-    
+
     getProjects()
     getName()
   }, [])
+
+  useEffect(() => {
+    console.log(project ? project['Project Name'] : 'Project not yet defined')
+  }, [project])
 
   return (
     <div className="App">
       <Header />
       <Divider />
       <Welcome clientName={clientName}/>
-      <FixedListComboBox projectList={projects} selected={project} onChangeProject={changeProject}/>
+      <FixedListComboBox projectList={projects} selected={project ? project['Project Name'] : ''} onChangeProject={changeProject} />
       <Divider />
-      <ProjectDetails />
+      <ProjectDetails project={project}/>
       <Divider />
       <FileContainer />
     </div>

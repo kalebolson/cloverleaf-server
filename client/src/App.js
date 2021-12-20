@@ -6,6 +6,7 @@ import FixedListComboBox from './components/FixedListComboBox.jsx'
 import Welcome from './components/Welcome'
 import ProjectDetails from './components/ProjectDetails'
 import FileContainer from './components/FileContainer'
+import MobileFileContainer from './components/MobileFileContainer'
 
 function App() {
 
@@ -46,9 +47,7 @@ function App() {
   }
 
   async function getProjectByName(name) {
-    var project = await projects.find(project => {
-      return project['Project Name'] === name
-    })
+    var project = await projects.find(project => project['Project Name'] === name)
     return project
   }
 
@@ -100,7 +99,8 @@ function App() {
       <Divider />
       <ProjectDetails project={project}/>
       <Divider />
-      <FileContainer />
+      <FileContainer files={files}/>
+      <MobileFileContainer files={files}/>
     </div>
   );
 }

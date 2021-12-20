@@ -9,8 +9,13 @@ function ProjectDetails({ project }) {
         var notes = project['Notes'] || '(No Notes)'
     
         function parseDate(dueDate){
-            const list = dueDate.split('-')
-            return list[1]+'/'+list[2]+'/'+list[0]
+            if (dueDate){
+                const list = dueDate.split('-')
+                return list[1]+'/'+list[2]+'/'+list[0]
+            }
+            else{
+                return false
+            }
         }
     
         return (

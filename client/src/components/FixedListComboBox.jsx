@@ -6,7 +6,7 @@ function FixedListComboBox({ projectList, selected, onChangeProject }) {
     const options = projectList.map((project) => {
         const name = project['Project Name']
         const status = project['Project Status'].replace(/\s+/g, '')
-        console.log(name,status)
+
         return <option 
         className={`proj-status status-${status}`}
         key={name} 

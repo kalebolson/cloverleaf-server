@@ -74,6 +74,10 @@ button {
     display: none;
   }
 
+  .file-table {
+    display: none;
+  }
+
   .nav-toggle {
     width: 30px;
     margin: 1em;

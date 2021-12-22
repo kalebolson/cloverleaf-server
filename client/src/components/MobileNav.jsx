@@ -18,7 +18,6 @@ const MobileMenu = ( { className, icon, onNavClick, links, navOpen } ) => {
             />
             {navOpen &&
                 <ul className='nav-list mobileOnly'>
-                    <li className='nav-list-item'><a href={links["bookLink"]}>BOOK ONLINE</a></li>
                     <li className='nav-list-item'><a href={links["contactLink"]}>CONTACT</a></li>
                     <li className='nav-list-item'><a href="">REPORT AN ISSUE</a></li>
                 </ul>

@@ -26,11 +26,6 @@ const Header = () => {
             <div className={`header-right ${ navOpen && 'navOpen'}`}>
                 <Button 
                     className="header-btns" 
-                    text="BOOK ONLINE" 
-                    btnLink={links["bookLink"]} 
-                />
-                <Button 
-                    className="header-btns" 
                     text="CONTACT" 
                     btnLink={links["contactLink"]} 
                 />

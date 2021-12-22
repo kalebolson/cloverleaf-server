@@ -82,12 +82,26 @@ function App() {
       setProject(projectsFromServer[0])
     }
 
-    getProjects()
     getName()
+    getProjects()
   }, [])
 
   useEffect(() => {
     console.log(project ? project['Project Name'] : 'Project not yet defined')
+
+    const getFiles = async () => {
+      const filesFromServer = await fetchFiles()
+      setFiles(filesFromServer)
+    }
+    const fetchFiles = async () => {
+      const res = await fetch(`api/files/at/${userID}/${project['Project Name']}`)
+      const data = await res.json()
+      return data
+    }
+
+    if (project){
+      getFiles()
+    }
   }, [project])
 
   return (

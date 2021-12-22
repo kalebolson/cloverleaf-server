@@ -19,7 +19,7 @@ function ProjectDetails({ project }) {
         }
     
         return (
-            <div class="project-details">
+            <div className="project-details">
                 <h4>Status: {status}</h4>
                 <h4>Type: {type}</h4>
                 <h4>Files: {fileCount}</h4>

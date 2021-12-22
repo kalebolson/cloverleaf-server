@@ -75,7 +75,7 @@ router.get('/at/:email/:project', (req, res) => {
         filterByFormula: 
             `AND(
                 REGEX_MATCH({Client Email}, "^${req.params.email}"),
-                REGEX_MATCH({Project}, "^${req.params.project}")
+                REGEX_MATCH({Project}, "^${req.params.project} for")
             )`,
         view: "Grid view"
     }).eachPage(function page(records, fetchNextPage) {
@@ -89,8 +89,22 @@ router.get('/at/:email/:project', (req, res) => {
             log('API-ERR', err)
         }
         else {
-            res.json(results)
-            log('API-SUCC', results)
+            
+            const respObj = results.map((obj) => {
+                const file = {
+                title: obj['Title'],
+                stage: obj['Stage'],
+                status: obj['Status'],
+                deadline: obj['Client Review Deadline'],
+                notes: obj['Notes'],
+                link: obj['Client File URL'],
+                reviewLink: obj['Web App ID']
+                }
+                return file
+            })
+            res.json(respObj)
+            log('AIRTABLE', JSON.stringify(results))
+            log('API-SUCC', JSON.stringify(respObj))
         }
     })
 })

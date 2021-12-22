@@ -1,0 +1,22 @@
+Larger Tasks Remaining:
+    Implement authentication
+        Ensure auth can pass in the user id (based on email address)
+    Implement Issue Reporter
+        See if this can go straight to a github issue as well as email me/matt
+    Create lots more test data
+        Projects with 10+ files
+        Long notes sections
+        Long song titles
+    Error handling / QA
+
+Smaller Tasks Remaining:
+    Finish styling
+        widen desktop app
+        wrap text for long notes
+        cut off long song titles
+        use :after for project and file drop-downs to show status icons
+        Borders around table items
+        Ensure file buttons don't look clickable and can't be clicked unless there is a valid link
+
+Optional Enhancements:
+    Fully host web form app on this server

@@ -64,6 +64,13 @@ button {
   display: none;
 }
 
+.alert-icon {
+  width: 20px;
+  position: relative;
+  left: 0px;
+  top: 4px;
+}
+
 @media screen and (max-width: 720px) {
   
   .mobileOnly{
@@ -150,5 +157,7 @@ button {
     0% {opacity:0;}
     100% {opacity:1;}
   }
+
+
 
 }

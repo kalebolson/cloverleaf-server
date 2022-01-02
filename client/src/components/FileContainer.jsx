@@ -1,5 +1,6 @@
 import React from 'react'
 import Button from './Button'
+import alertIcon from '../images/alert.svg'
 
 const FileContainer = ({ files }) => {
     const items = files.map((file) => {
@@ -10,7 +11,12 @@ const FileContainer = ({ files }) => {
             <td>{file.status}</td>
             <td>{file.deadline}</td>
             <td>{file.notes}</td>
-            {showReviewBtn && <td className='action-required-column'>Action Required by {file.deadline}!<Button text='Update Status' btnLink={file.reviewLink} className='file-review-btn'/></td>}
+            {showReviewBtn && 
+                <td className='action-required-column'>
+                    <Button text='Update Status' btnLink={file.reviewLink} className='file-review-btn'/>
+                    <img src={alertIcon} alt="Notification Icon" className='alert-icon'/> <br />
+                    Action Required by {file.deadline}!
+                </td>}
         </tr>)
     })
 

@@ -20,3 +20,7 @@ Smaller Tasks Remaining:
 
 Optional Enhancements:
     Fully host web form app on this server
+
+Bugs:
+    If a project has no files associated, the fields from the previously loaded file persist
+        -I think that what's actually happening is that changing projects just isn't changing the active file at all

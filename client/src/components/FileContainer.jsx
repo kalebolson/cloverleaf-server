@@ -1,11 +1,16 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from './Button'
 import alertIcon from '../images/alert.svg'
 
 const FileContainer = ({ files }) => {
+
+    const [noFiles, setNoFiles] = useState(files[0].title == '(no files found)')
+
+    const noFilesStyle = noFiles ? {} : {display: 'none'}
+
     const items = files.map((file) => {
-        const showReviewBtn = (file.status === "Awaiting Client Review")
-        return (<tr>
+        const showReviewBtn = (file.status && file.status === "Awaiting Client Review")
+        return (<tr key={file.title}>
             <td><Button text={file.title} className={`file-link-btn ${file.link && 'btn-has-link'}`} btnLink={file.link}/></td>
             <td>{file.stage}</td>
             <td>{file.status}</td>
@@ -20,9 +25,14 @@ const FileContainer = ({ files }) => {
         </tr>)
     })
 
+    useEffect(() => {
+        setNoFiles(files[0].title == '(no files found)')
+    })
+
     return (
         <div className='file-container'>
         <table className='file-table'>
+            <tbody>
             <tr>
                 <th>File</th>
                 <th>Stage</th>
@@ -30,8 +40,10 @@ const FileContainer = ({ files }) => {
                 <th>Review Deadline</th>
                 <th>Notes</th>
             </tr>
-            {items}
+            {!noFiles && items}
+            </tbody>
         </table>
+            <span style={noFilesStyle} className='no-files-desktop'>(no files found)</span>
         </div>
 
     )

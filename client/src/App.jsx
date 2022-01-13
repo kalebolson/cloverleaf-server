@@ -12,32 +12,14 @@ function App() {
 
   //placeholder data, replace all of this with a call to the back end
   const userID = "matthewgrosso95" //Replace this with a url parameter OR pass from authentication somehow
-  const fileplaceholder = [
-    { 
-      'title': 'song 1',
-      'stage': 'mix',
-      'status': 'Needs Re-Recording',
-      'notes': ''
-    },
-    { 
-      'title': 'song 2',
-      'stage': 'mix',
-      'status': 'Accepted',
-      'notes': 'Thanks!!'
-    },
-    { 
-      'title': 'song 3',
-      'stage': 'mastering',
-      'status': 'Needs Archiving',
-      'notes': ''
-    }
-  ]
+
 
   //Create States
   const [project, setProject] = useState()
   const [projects, setProjects] = useState([])
   const [clientName, setClientName] = useState()
-  const [files, setFiles] = useState(fileplaceholder)
+  const [files, setFiles] = useState([{title: '(no files found)'}])
+  const [initialRender, setInitialRender] = useState(true)
 
 
   //Calls/Functions
@@ -87,21 +69,27 @@ function App() {
   }, [])
 
   useEffect(() => {
-    console.log(project ? project['Project Name'] : 'Project not yet defined')
+    if (initialRender){
+      setInitialRender(false)
+      return
+    }
 
     const getFiles = async () => {
-      const filesFromServer = await fetchFiles()
-      setFiles(filesFromServer)
-    }
-    const fetchFiles = async () => {
       const res = await fetch(`api/files/at/${userID}/${project['Project Name']}`)
       const data = await res.json()
-      return data
+      console.log(data)
+      const files = data.length === 0 ? [{title: '(no files found)'}] : data
+      setFiles(files)
     }
 
     if (project){
+      console.log('Current Project:',project)
       getFiles()
+    } else {
+      console.log('Project not yet defined')
     }
+
+    
   }, [project])
 
   return (
@@ -113,7 +101,7 @@ function App() {
       <Divider />
       <ProjectDetails project={project}/>
       <Divider />
-      <FileContainer files={files}/>
+      <FileContainer files={files}/> 
       <MobileFileContainer files={files}/>
     </div>
   );

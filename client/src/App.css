@@ -31,7 +31,7 @@ header {
 
 button {
   background-color: rgb(197, 197, 197);
-  padding: 10px 5px;
+  padding: 5px 5px;
   font-size: 16;
   font-weight: bold;
   text-decoration: none;
@@ -45,6 +45,7 @@ button {
 
 
 .header-btns {
+  padding: 10px 5px;
   margin: 10px;
 }
 
@@ -59,7 +60,8 @@ button {
 
 .divider {
   display: block;
-  border-bottom: 1px solid #dbd9d9;
+  border-bottom: 2px solid #dbd9d9;
+  border-radius: 1em;
   height: 1px;
   margin: 5 0 5 0;
 }
@@ -73,6 +75,33 @@ button {
   position: relative;
   left: 0px;
   top: 4px;
+}
+
+.red {
+  color: red;
+}
+
+.italics {  
+  font-style: italic;
+}
+  
+.orange-btn {
+  background-color: #f37820e0;
+  border: 2px outset rgb(182, 182, 182);
+}
+
+.orange-btn:hover {
+  border: 2px inset rgb(0, 0, 0);
+}
+
+.file-table {
+  border: 3px outset gray;
+  border-radius: 1em;
+}
+
+.file-table td {
+  text-align: center;
+  vertical-align: middle;
 }
 
 @media screen and (max-width: 720px) {

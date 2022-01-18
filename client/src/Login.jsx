@@ -14,6 +14,7 @@ async function checkCreds(creds){
 export default function Login (props) {
     const [username, setUsername] = useState()
     const [password, setPassword] = useState()  
+    const [invalidCreds, setInvalidCreds] = useState()
 
     const submitClicked = async (e) => {
         e.preventDefault()
@@ -22,12 +23,13 @@ export default function Login (props) {
             username,
             password
         })
-        console.log("Received token:", token)
+        !token.username ? setInvalidCreds(true) : setInvalidCreds(false)
         props.setToken(token)
     }
     return (
         <div className="login-wrapper">
-            <h1>Welcome to the Portal! Please log in</h1>
+            <h3>Welcome to the Portal! Please log in</h3>
+            {invalidCreds && <p className='red italics'>Email or Password invalid</p>}
             <form onSubmit={submitClicked}>
                 <label>
                     <p>Email Address</p>
@@ -38,7 +40,7 @@ export default function Login (props) {
                     <input type="password" onChange={(e) => setPassword(e.target.value)} />
                 </label>
                 <div>
-                    <button type="submit">Submit</button>
+                    <button type="submit" className='orange-btn'>Submit</button>
                 </div>
             </form>
         </div>

@@ -5,22 +5,21 @@ import './App.css'
 import { useState } from 'react'
 import Login from "./Login"
 import useToken from './hooks/useToken'
+import Header from "./components/Header"
+import Divider from "./components/Divider"
 
 function App() { 
     const { token, setToken } = useToken()
 
-    if (!token){
-        return <Login setToken={setToken} />
-    }
-
     return (
         <div className="wrapper">
-            <BrowserRouter>
-                <Routes>
-                    <Route path='/home' element={<Home />}/>
-                    <Route path='/routetest' element={<Route2Test />} />
-                </Routes>
-            </BrowserRouter>
+            <div className="App">
+            <Header />
+            <Divider />
+            {!token
+            ? <Login setToken={setToken} />
+            : <Home token={token} />}
+            </div>
         </div>
     )
 }

@@ -15,10 +15,10 @@ function MobileFileContainerDetails({ file }) {
             <h5>Stage: {stage}</h5>
             <h5>Status: {status}</h5>
             <h5>Notes: {notes}</h5>
-            {link && <Button text="Review File" btnLink={link} className='file-btn'/>}
+            {link && <Button text="Review File" btnLink={link} className='file-btn orange-btn'/>}
             {showReviewBtn && 
                 <div>
-                    <Button text="Update Status" btnLink={reviewLink} className='file-btn'/>
+                    <Button text="Update Status" btnLink={reviewLink} className='file-btn orange-btn'/>
                     <img src={alertIcon} alt="Notification Icon" className='alert-icon'/>
                     <h5>Action Required by {deadline}! </h5>
                 </div>}

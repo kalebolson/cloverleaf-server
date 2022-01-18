@@ -93,9 +93,7 @@ function Home() {
   }, [project])
 
   return (
-    <div className="App">
-      <Header />
-      <Divider />
+    <div className="home">
       <Welcome clientName={clientName}/>
       <FixedListComboBox projectList={projects} selected={project ? project['Project Name'] : ''} onChangeProject={changeProject} />
       <Divider />

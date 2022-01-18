@@ -22,6 +22,7 @@ export default function Login (props) {
             username,
             password
         })
+        console.log("Received token:", token)
         props.setToken(token)
     }
     return (

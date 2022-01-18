@@ -30,7 +30,7 @@ export default function Login (props) {
             <h1>Welcome to the Portal! Please log in</h1>
             <form onSubmit={submitClicked}>
                 <label>
-                    <p>Username</p>
+                    <p>Email Address</p>
                     <input type="text" onChange={(e) => setUsername(e.target.value)} />
                 </label>
                 <label>

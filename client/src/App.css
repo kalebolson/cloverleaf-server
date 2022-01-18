@@ -2,6 +2,10 @@
   margin: 0;
 }
 
+.wrapper {
+  padding: 20px;
+}
+
 .App {
   background: white;
   margin: 2em auto;
@@ -81,7 +85,7 @@ button {
     display: none;
   }
 
-  .file-table {
+  .file-container {
     display: none;
   }
 

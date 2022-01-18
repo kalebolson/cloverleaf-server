@@ -15,7 +15,7 @@ function MobileFileContainer ({ files }) {
 
     useEffect(() => {
         setFile(files[0])
-    }, files)
+    }, [files])
 
     return (
         <div className='mobileOnly'>

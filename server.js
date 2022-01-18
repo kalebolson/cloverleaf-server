@@ -6,6 +6,7 @@ const cors = require('cors')
 const projectsRouter = require('./routes/api/projects')
 const filesRouter = require('./routes/api/files')
 const miscRouter = require('./routes/api/misc')
+const loginRouter = require('./routes/api/login')
 const log = require('./logger')
 const path = require('path')
 
@@ -29,6 +30,7 @@ mongoose.connect(db)
 app.use('/api/projects', projectsRouter)
 app.use('/api/files', filesRouter)
 app.use('/api/misc', miscRouter)
+app.use('/api/login', loginRouter)
 
 // Ping
 app.get('/ping', (req, res)=> {

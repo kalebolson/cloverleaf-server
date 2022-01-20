@@ -1,13 +1,18 @@
 import React from 'react'
 import menuIcon from '../images/menu-icon.svg'
 import closeMenuIcon from '../images/close-menu-icon.svg'
+import { process_params } from 'express/lib/router'
 
-const MobileMenu = ( { className, icon, onNavClick, links, navOpen } ) => {
+const MobileMenu = ( { className, icon, onNavClick, links, navOpen, token, setToken, setChangePwPopUp } ) => {
     const icons = {
         "menu": menuIcon,
         "closeMenu": closeMenuIcon
     }
-    
+    function onSignOut() {
+        setToken(false)
+        onNavClick()
+    }
+
     return (
         <div className={`mobile-nav ${navOpen && "navOpen"}`}>
             <img 
@@ -20,6 +25,8 @@ const MobileMenu = ( { className, icon, onNavClick, links, navOpen } ) => {
                 <ul className='nav-list mobileOnly'>
                     <li className='nav-list-item'><a href={links["contactLink"]}>CONTACT</a></li>
                     <li className='nav-list-item'><a href="">REPORT AN ISSUE</a></li>
+                    {token && <li className='nav-list-item'><a href="#" onClick={(e) => setChangePwPopUp(true)}>CHANGE PASSWORD</a></li>}
+                    {token && <li className='nav-list-item'><a href="#" onClick={onSignOut}>SIGN OUT</a></li>}
                 </ul>
             }
 

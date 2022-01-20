@@ -20,7 +20,7 @@ router.use('/', (req, res) => {
             if (result.length === 0) {
                 checkAirtable(req, res)
             } else if (result[0].password != req.body.password) {
-                log("API-ERR", `Invalid credentials sent: ${req.body}`)
+                log("API-ERR", `Invalid credentials sent: ${JSON.stringify(req.body)}`)
                 res.status(401).send({
                     message: "Invalid Credentials"
                 })
@@ -42,25 +42,26 @@ router.use('/', (req, res) => {
 })
 
 function checkAirtable(req, res) {
+    console.log(req.body.username)
     base('Projects').select({
-        filterByFormula: `TRUE({Client Email} = "${req.params.email}")`,
+        filterByFormula: `{Client Email} = "${req.body.username}"`,
         view: "Grid view"
     }).firstPage((err, records) => {
         if (err) {
-            log("API-ERR", err)
+            log("LOGIN-ERR", err)
             res.json({Error: err})
         }
         else {
             if (records.length > 0 & req.body.password == "welcome1") {
-                log("API-SUCC", "New user logged in, saving to mongodb")
+                log("LOGIN-SUCC", "New user logged in, saving to mongodb")
                 const newCreds = new Creds({...req.body, userId: (req.body.username.split('@')[0])})
                 newCreds.save()
                     .catch(err => {
-                        res.status(500).send({Error: err})
+                        res.status(500).send({ Error: err })
                     })
                 res.json({ token: newCreds.userId })
             } else {
-                log("API-ERR", `Invalid credentials sent: ${req.body}`)
+                log("LOGIN-ERR", `Invalid credentials sent: ${JSON.stringify(req.body)}`)
                 res.status(401).send({
                     message: "Invalid Credentials"
                 })
@@ -72,11 +73,9 @@ function checkAirtable(req, res) {
 router.use('/changepw', (req, res) => {
     // Check submitted creds against db
     // If found, then change password in db to supplied new password
-
-    // This should prompt on first login, and should be a button inside the app as well. 
-    // Maybe just a small button in the footer
-
-    console.log('change pw feature not yet implemented')
+    let updCreds = Creds.findOne({ username: req.username, password: req.oldpassword})
+    updCreds.password = req.newpassword
+    updCreds.save()
 })
 
 module.exports = router

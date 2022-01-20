@@ -4,17 +4,21 @@ import Button from './Button.jsx'
 import {useState} from 'react'
 import MobileNav from './MobileNav'
 
-const Header = () => {
+const Header = (props) => {
 
     const [navOpen, setNavOpen] = useState(false)
 
-    function openNav(menu) {
+    function openNav() {
       console.log("opening nav")
       setNavOpen(!navOpen)
     }
     const links = {
         "bookLink": "https://square.site/appointments/book/5HSTX0GJE5TAN/cloverleaf-audio-visual-saint-paul-mn",
         "contactLink": "https://www.cloverleaf.audio/contact"
+    }
+
+    function onSignOut() {
+        props.setToken(false)
     }
 
 
@@ -33,12 +37,27 @@ const Header = () => {
                     className="header-btns" 
                     text="REPORT AN ISSUE" 
                 />
+                {props.token && 
+                <Button 
+                className="header-btns"
+                text="CHANGE PASSWORD"  
+                onClick={(e) => {props.setChangePwPopUp(true)}}  
+                />}
+                {props.token && 
+                <Button 
+                className="header-btns"
+                text="SIGN OUT"   
+                onClick={onSignOut} 
+                />}
                 <MobileNav 
                     className={!navOpen ? "nav-btn" : "close-nav-btn"}
                     icon={!navOpen ? "menu" : "closeMenu"} 
                     onNavClick={openNav}
                     navOpen={navOpen}
                     links = {links}
+                    token = {props.token}
+                    setToken = {props.setToken}
+                    setChangePwPopUp = {props.setChangePwPopUp}
                 />
             </div>
         </header>

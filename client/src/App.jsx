@@ -10,15 +10,19 @@ import Divider from "./components/Divider"
 
 function App() { 
     const { token, setToken } = useToken()
+    const [changePwPopUp, setChangePwPopUp] = useState()
 
     return (
         <div className="wrapper">
             <div className="App">
-            <Header />
+            <Header token={token} setToken={setToken} setChangePwPopUp={setChangePwPopUp}/>
             <Divider />
             {!token
             ? <Login setToken={setToken} />
-            : <Home token={token} />}
+            : <Home 
+                token={token}
+                changePwPopUp={changePwPopUp}
+                setChangePwPopUp={setChangePwPopUp} />}
             </div>
         </div>
     )

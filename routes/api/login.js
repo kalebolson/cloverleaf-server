@@ -11,7 +11,7 @@ const Creds = require('../../models/Creds')
 // @route   POST api/login
 // @desc    Attempt to authenticate entered credentials
 // @access  Public
-router.use('/', (req, res) => {
+router.post('/', (req, res) => {
     // TODO - 
     // Set up DB for storing creds
     // Check submitted creds against db, return {token: user ID (email prefix)} if email and password match
@@ -70,12 +70,37 @@ function checkAirtable(req, res) {
     })
 }
 
-router.use('/changepw', (req, res) => {
+router.post('/changepw', (req, res) => {
+
+    console.log(req.body.userId)
+    console.log(req.body.oldPW)
+    console.log(req.body.newPW)
     // Check submitted creds against db
     // If found, then change password in db to supplied new password
-    let updCreds = Creds.findOne({ username: req.username, password: req.oldpassword})
-    updCreds.password = req.newpassword
-    updCreds.save()
+    // Creds.findOne({ userId: 'matthewgrosso95' }, (err, result) => {
+    //     if (err){
+    //         console.log("error",err)
+    //     }
+    //     console.log("success", result)
+    //     res.json(result)
+    // })
+    const updCreds = Creds.findOne({ userId: req.body.userId }, (err, updCreds) => {
+        console.log(updCreds)
+        if (err){
+            res.status(400).send(err)
+        }
+        else {
+            updCreds.password = req.body.newPW
+            updCreds.save((err, data) => {
+                if (err){
+                    res.status(400).send(err)
+                }
+                else {
+                    res.send({ data: data })
+                }
+            })
+        }
+    })
 })
 
 module.exports = router

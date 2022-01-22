@@ -81,13 +81,15 @@ function Home(props) {
 
   async function postChangePW(e) {
     e.preventDefault()
+    console.log(props.token)
     const response = await fetch('/api/login/changepw', {
       method: "POST",
       headers: {
           'Content-type': "application/json"
       },
-      body: JSON.stringify({ userID: props.token, oldPW, newPW })
+      body: JSON.stringify({ userId: props.token, oldPW, newPW })
     })
+    console.log(response)
     if (!response.Error){
       closePopUp()
     } else {

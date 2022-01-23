@@ -18,10 +18,11 @@ function Home(props) {
   const [files, setFiles] = useState([{title: '(no files found)'}])
   const [initialRender, setInitialRender] = useState(true)
   
-  const [oldPW, setOldPW] = useState()
-  const [newPW, setNewPW] = useState()
-  const [newPWConf, setNewPWConf] = useState()
-  const [alert, setAlert] = useState()
+  const [oldPW, setOldPW] = useState('')
+  const [newPW, setNewPW] = useState('')
+  const [newPWConf, setNewPWConf] = useState('')
+  const [alert, setAlert] = useState('')
+  
 
 
   //Calls/Functions
@@ -58,27 +59,44 @@ function Home(props) {
     return data
   }
 
-  const changePwContent = (
-      <form onSubmit={postChangePW}>
-        <label htmlFor="oldPW">Old Password</label>
-        <input type="text" name='oldPW' onChange={(e) => setOldPW(e.target.value)}/>
-        <label htmlFor="newPW">New Password</label>
-        <input type="text" name='newPW' onChange={(e) => setNewPW(e.target.value)}/>
-        <label htmlFor="newPWConf">Confirm New Password</label>
-        <input type="text" name='newPWConf' onChange={(e) => setNewPWConf(e.target.value)}/>
-        <button className='save-pw-btn' {...(submitReady) ? '' : 'disabled'}>Save</button>
-      </form>
-    )
-  
-
-  function submitReady() {
+  const submitReady = () => {
     return(
-      newPW === newPWConf &
+    newPW === newPWConf &
+    newPW.length > 0 &
+    oldPW.length > 0
+  )}
+
+  const passwordsDoNotMatch = () => {
+    return (
+      newPW !== newPWConf &
       newPW.length > 0 &
-      oldPW.length > 0
+      newPWConf.length > 0
     )
   }
 
+  const changePwContent = (
+      <form onSubmit={postChangePW}>
+        <div className="flexcolumn">
+          <div className="flexrow">
+            <label htmlFor="oldPW">Old Password:<span className='red'>*</span></label>
+            <input type="password" name='oldPW' onChange={(e) => setOldPW(e.target.value)}/>
+          </div>
+          <div className="flexrow">
+            <label htmlFor="newPW">New Password:<span className='red'>*</span></label>
+            <input type="password" name='newPW' onChange={(e) => setNewPW(e.target.value)}/>
+          </div>
+          <div className="flexrow">
+            <label htmlFor="newPWConf">Confirm New Password:<span className='red'>*</span></label>
+            <input type="password" name='newPWConf' onChange={(e) => setNewPWConf(e.target.value)}/>
+          </div>
+          {passwordsDoNotMatch() ? <span className='red italics' >(New Password Fields Do Not Match)</span> : ''}
+          <div className="flexrow">
+            <button className='save-pw-btn' disabled={submitReady() ? '' : 'true'}>Save</button>
+          </div> 
+        </div>
+      </form>
+    )
+  
   async function postChangePW(e) {
     e.preventDefault()
     console.log(props.token)
@@ -89,11 +107,12 @@ function Home(props) {
       },
       body: JSON.stringify({ userId: props.token, oldPW, newPW })
     })
-    console.log(response)
-    if (!response.Error){
+    console.log(response.body)
+    if (response.status == 200){
       closePopUp()
+      setAlert('Password Changed Successfully!')
     } else {
-      setAlert(response.Error)
+      setAlert('Old Password Incorrect')
     }
     
   }
@@ -159,7 +178,7 @@ function Home(props) {
       <PopUp 
         closeIcon={true}
         closePopUp={closeAlert}
-        content={<h3>{alert}</h3>}
+        content={<h4>{alert}</h4>}
       />}
     </div>
   );

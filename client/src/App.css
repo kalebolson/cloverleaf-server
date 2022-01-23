@@ -43,6 +43,11 @@ button {
   cursor: pointer;
 }
 
+button:disabled {
+  cursor: default;
+  background-color: rgb(197, 197, 197);
+}
+
 
 .header-btns {
   padding: 10px 5px;
@@ -56,6 +61,33 @@ button {
   -ms-transition: background-color 300ms linear;
   transition: background-color 300ms linear;
   
+}
+
+.save-pw-btn {
+  background-color: rgb(73, 145, 252);
+  width: fit-content;
+  font-weight: bold;
+  padding: .75em;
+  border: 1px solid rgb(156, 156, 156);
+}
+
+.close-popup-btn {
+  font-weight: bold;
+  position: absolute;
+  right: -.8em;
+  top: -.85em;
+  border: 1px inset gray;
+  border-radius: 100%;
+  width: 1.75em;
+  height: 1.75em;
+  line-height: 0;
+  background-color: rgb(252, 141, 141);
+  color: black;
+}
+
+.close-popup-btn:hover {
+  background-color: rgb(255, 66, 66);
+  border: 1px outset gray;
 }
 
 .divider {
@@ -120,12 +152,31 @@ button {
   margin: 0 auto;
   height: auto;
   max-height: 70vh;
+  max-width:fit-content;
   margin-top: calc(100vh - 85vh - 20px);
-  border-radius: 4px; 
+  border-radius: 10px; 
   padding: 20px;
-  border: 1px solid black;
-  overflow: auto; 
+  border: 2px outset black;
+  overflow: visible; 
+}
 
+.flexrow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  margin: .5em 0;
+  flex-wrap: wrap;
+}
+.flexrow input {
+  align-self: flex-start;
+}
+.flexrow label {
+  width: 13em;
+}
+
+.flexcolumn {
+  display: flex;
+  flex-direction: column;
 }
 
 @media screen and (max-width: 720px) {

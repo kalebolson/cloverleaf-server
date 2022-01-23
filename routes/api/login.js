@@ -84,10 +84,16 @@ router.post('/changepw', (req, res) => {
     //     console.log("success", result)
     //     res.json(result)
     // })
-    const updCreds = Creds.findOne({ userId: req.body.userId }, (err, updCreds) => {
+    const updCreds = Creds.findOne({ userId: req.body.userId, password: req.body.oldPW }, (err, updCreds) => {
         console.log(updCreds)
         if (err){
+            log('LOGIN-ERR', err)
             res.status(400).send(err)
+        }
+        else if (!updCreds){
+            const error = 'Old Password Incorrect'
+            log('LOGIN-ERR', error)
+            res.status(401).json({ error: error })
         }
         else {
             updCreds.password = req.body.newPW
@@ -96,7 +102,7 @@ router.post('/changepw', (req, res) => {
                     res.status(400).send(err)
                 }
                 else {
-                    res.send({ data: data })
+                    res.json({ data: data })
                 }
             })
         }

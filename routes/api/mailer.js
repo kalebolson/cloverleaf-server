@@ -14,19 +14,19 @@ const transporter = nodemailer.createTransport({
 
 
 router.post('/', (req, res) => {
-    const subject = "Issue Report: "+req.body.subject
+    const description = "Issue Report: "+req.body.description
     const userId = req.body.token
     const contactClient = req.body.contactClient
 
-    const message = "Message from user"+userId+": \""+req.body.message+"\" \n OK to Contact: "+contactClient
+    const message = `"Message from user "+${userId}+": \""+${description}+"\" --- OK to Contact: "+${contactClient}`
 
-    log('Received issue report: '+JSON.stringify(req.body))
+    log('MAIL-INFO','Received issue report: '+JSON.stringify(req.body))
 
     const mailOptions = {
         from: process.env.REPORT_EMAIL_FROM,
         to: process.env.REPORT_EMAIL_TO,
-        subject: subject,
-        text: message
+        subject: 'Cloverleaf Issue Report',
+        text: description
     }
 
     transporter.sendMail(mailOptions, (err, response) => {
@@ -40,3 +40,5 @@ router.post('/', (req, res) => {
     })
     
 })
+
+module.exports = router

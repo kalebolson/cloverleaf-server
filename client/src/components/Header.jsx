@@ -3,10 +3,15 @@ import logo from '../images/cloverleaflogo.png'
 import Button from './Button.jsx'
 import {useState} from 'react'
 import MobileNav from './MobileNav'
+import PopUp from './PopUp'
 
 const Header = (props) => {
 
     const [navOpen, setNavOpen] = useState(false)
+    const [reportIssuePopup, setReportIssuePopUp] = useState()
+    const [issueDescription, setIssueDescription] = useState()
+    const [issueCheckboxChecked, setIssueCheckboxChecked] = useState(false)
+    const [submitted, setSubmitted] = useState()
 
     function openNav() {
       console.log("opening nav")
@@ -20,6 +25,48 @@ const Header = (props) => {
     function onSignOut() {
         props.setToken(false)
     }
+
+    async function submitIssueReport(e){
+        e.preventDefault();
+        let response = await fetch('/api/mailer', {
+            method: "POST",
+            headers: {
+                'Content-type': "application/json"
+            },
+            body: JSON.stringify({
+                token: props.token,
+                contactClient: issueCheckboxChecked,
+                description: issueDescription
+            })
+        });
+
+        (() => {
+            setSubmitted(true)
+            setTimeout(() => {
+                setReportIssuePopUp(false)
+            }, 2000)
+            setSubmitted(false)
+            setIssueCheckboxChecked(false)
+            setIssueDescription('')
+        })()
+
+    }
+
+    const issueReportContent = !submitted
+    ?(
+        <div className="report-issue-content">
+            <form onSubmit={submitIssueReport}>
+                <label htmlFor="description">Tell us what went wrong, or suggest an improvement!</label>
+                <textarea className='issue-desc-box' name="description" cols="30" rows="10" value={issueDescription} onChange={(e) => {setIssueDescription(e.target.value)}}></textarea>
+                <label className='issue-report-checkbox' htmlFor="letdevcontact">Allow site developer to contact me via email:</label>
+                <input type="checkbox" name='letdevcontact' checked={issueCheckboxChecked} onChange={(e) => {setIssueCheckboxChecked(!issueCheckboxChecked)}}/>
+                <button className='submit-issue-btn'></button>
+            </form>
+        </div>
+    )
+    :(
+        <h4>Thanks!</h4>
+    )
 
 
     return (
@@ -36,6 +83,7 @@ const Header = (props) => {
                 <Button 
                     className="header-btns" 
                     text="REPORT AN ISSUE" 
+                    onClick={(e) => setReportIssuePopUp(true)}
                 />
                 {props.token && 
                 <Button 
@@ -60,6 +108,13 @@ const Header = (props) => {
                     setChangePwPopUp = {props.setChangePwPopUp}
                 />
             </div>
+            {reportIssuePopup && 
+                <PopUp 
+                    closeIcon={true}
+                    closePopUp={(e) => setReportIssuePopUp(false)}
+                    content={issueReportContent}
+                 />
+            }
         </header>
     )
 }

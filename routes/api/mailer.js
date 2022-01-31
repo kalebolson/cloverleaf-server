@@ -28,7 +28,11 @@ router.post('/', async (req, res) => {
     const description = req.body.description
     const userId = req.body.token
     const contactClient = req.body.contactClient
-    const email = contactClient ? await getClientEmail(userId) : 'N/A'
+    const email = req.body.loggedOutEmail 
+        ? req.body.loggedOutEmail 
+        : (contactClient 
+            ? await getClientEmail(userId) 
+            : 'N/A')
 
     const message = `Message from user "${userId}": "${description}" \nOK to Contact?: ${contactClient}\nEmail: ${email}`
 

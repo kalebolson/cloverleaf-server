@@ -12,6 +12,7 @@ const Header = (props) => {
     const [issueDescription, setIssueDescription] = useState()
     const [issueCheckboxChecked, setIssueCheckboxChecked] = useState(false)
     const [alert, setAlert] = useState()
+    const [loggedOutEmail, setLoggedOutEmail] = useState()
 
     function openNav() {
       console.log("opening nav")
@@ -40,7 +41,8 @@ const Header = (props) => {
             body: JSON.stringify({
                 token: props.token,
                 contactClient: issueCheckboxChecked,
-                description: issueDescription
+                description: issueDescription,
+                loggedOutEmail: loggedOutEmail
             })
         });
 
@@ -61,9 +63,13 @@ const Header = (props) => {
         <div className="report-issue-content">
             <form onSubmit={submitIssueReport}>
                 <label htmlFor="description">Tell us what went wrong, or suggest an improvement!</label><br />
-                <textarea className='issue-desc-box' name="description" cols="30" rows="10" value={issueDescription} onChange={(e) => {setIssueDescription(e.target.value)}}></textarea>
+                <textarea className='issue-desc-box' name="description" cols="30" rows="10" value={issueDescription} onChange={(e) => {setIssueDescription(e.target.value)}}></textarea><br />
                 <label className='issue-report-checkbox' htmlFor="letdevcontact">Allow site developer to contact me via email:</label>
                 <input type="checkbox" name='letdevcontact' checked={issueCheckboxChecked} onChange={(e) => {setIssueCheckboxChecked(!issueCheckboxChecked)}}/><br />
+                {(issueCheckboxChecked & !props.token) 
+                    ? <label >Email:<input type="text" placeholder='Enter email address' onChange={(e) => setLoggedOutEmail(e.target.value)}/><br /></label>
+                    : ''
+                }
                 <button className='submit-issue-btn'></button>
             </form>
         </div>
@@ -106,6 +112,7 @@ const Header = (props) => {
                     token = {props.token}
                     setToken = {props.setToken}
                     setChangePwPopUp = {props.setChangePwPopUp}
+                    setReportIssuePopUp = {setReportIssuePopUp}
                 />
             </div>
             {reportIssuePopup && 

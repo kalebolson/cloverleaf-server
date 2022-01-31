@@ -11,7 +11,7 @@ const Header = (props) => {
     const [reportIssuePopup, setReportIssuePopUp] = useState()
     const [issueDescription, setIssueDescription] = useState()
     const [issueCheckboxChecked, setIssueCheckboxChecked] = useState(false)
-    const [submitted, setSubmitted] = useState()
+    const [alert, setAlert] = useState()
 
     function openNav() {
       console.log("opening nav")
@@ -24,6 +24,10 @@ const Header = (props) => {
 
     function onSignOut() {
         props.setToken(false)
+    }
+
+    function closeAlert() {
+        setAlert(false)
     }
 
     async function submitIssueReport(e){
@@ -40,34 +44,30 @@ const Header = (props) => {
             })
         });
 
+        
         (() => {
-            setSubmitted(true)
+            setAlert("Thank you!")
             setTimeout(() => {
                 setReportIssuePopUp(false)
-            }, 2000)
-            setSubmitted(false)
+                setAlert(false)
+            }, 1500)
             setIssueCheckboxChecked(false)
             setIssueDescription('')
         })()
 
     }
 
-    const issueReportContent = !submitted
-    ?(
+    const issueReportContent = (
         <div className="report-issue-content">
             <form onSubmit={submitIssueReport}>
-                <label htmlFor="description">Tell us what went wrong, or suggest an improvement!</label>
+                <label htmlFor="description">Tell us what went wrong, or suggest an improvement!</label><br />
                 <textarea className='issue-desc-box' name="description" cols="30" rows="10" value={issueDescription} onChange={(e) => {setIssueDescription(e.target.value)}}></textarea>
                 <label className='issue-report-checkbox' htmlFor="letdevcontact">Allow site developer to contact me via email:</label>
-                <input type="checkbox" name='letdevcontact' checked={issueCheckboxChecked} onChange={(e) => {setIssueCheckboxChecked(!issueCheckboxChecked)}}/>
+                <input type="checkbox" name='letdevcontact' checked={issueCheckboxChecked} onChange={(e) => {setIssueCheckboxChecked(!issueCheckboxChecked)}}/><br />
                 <button className='submit-issue-btn'></button>
             </form>
         </div>
     )
-    :(
-        <h4>Thanks!</h4>
-    )
-
 
     return (
         <header>
@@ -115,6 +115,12 @@ const Header = (props) => {
                     content={issueReportContent}
                  />
             }
+            {alert && 
+                <PopUp 
+                    closeIcon={true}
+                    closePopUp={closeAlert}
+                    content={<h4>{alert}</h4>}
+                />}
         </header>
     )
 }

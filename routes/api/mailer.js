@@ -3,6 +3,8 @@ const router = require('express').Router()
 const nodemailer = require('nodemailer')
 const { json } = require('body-parser')
 
+const Creds = require('../../models/Creds')
+
 const transporter = nodemailer.createTransport({
     service: 'gmail',
     auth: {
@@ -11,14 +13,24 @@ const transporter = nodemailer.createTransport({
     }
 })
 
-
+async function getClientEmail(userId) {
+    const clientCreds
+    try {
+        clientCreds = await Creds.findOne({ userId: userId })
+        return clientCreds.username
+    } catch (e) {
+        log("DB-ERR", e)
+        return "N/A"
+    }
+}
 
 router.post('/', (req, res) => {
-    const description = "Issue Report: "+req.body.description
+    const description = req.body.description
     const userId = req.body.token
     const contactClient = req.body.contactClient
+    const email = contactClient ? getClientEmail(userId) : 'N/A'
 
-    const message = `"Message from user "+${userId}+": \""+${description}+"\" --- OK to Contact: "+${contactClient}`
+    const message = `Message from user "${userId}": "${description}" --- OK to Contact?: ${contactClient} --- Email: ${email}`
 
     log('MAIL-INFO','Received issue report: '+JSON.stringify(req.body))
 
@@ -26,7 +38,7 @@ router.post('/', (req, res) => {
         from: process.env.REPORT_EMAIL_FROM,
         to: process.env.REPORT_EMAIL_TO,
         subject: 'Cloverleaf Issue Report',
-        text: description
+        text: message
     }
 
     transporter.sendMail(mailOptions, (err, response) => {

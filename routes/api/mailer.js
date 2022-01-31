@@ -14,7 +14,7 @@ const transporter = nodemailer.createTransport({
 })
 
 async function getClientEmail(userId) {
-    const clientCreds
+    let clientCreds;
     try {
         clientCreds = await Creds.findOne({ userId: userId })
         return clientCreds.username
@@ -24,13 +24,13 @@ async function getClientEmail(userId) {
     }
 }
 
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
     const description = req.body.description
     const userId = req.body.token
     const contactClient = req.body.contactClient
-    const email = contactClient ? getClientEmail(userId) : 'N/A'
+    const email = contactClient ? await getClientEmail(userId) : 'N/A'
 
-    const message = `Message from user "${userId}": "${description}" --- OK to Contact?: ${contactClient} --- Email: ${email}`
+    const message = `Message from user "${userId}": "${description}" \nOK to Contact?: ${contactClient}\nEmail: ${email}`
 
     log('MAIL-INFO','Received issue report: '+JSON.stringify(req.body))
 

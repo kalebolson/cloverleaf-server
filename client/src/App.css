@@ -102,11 +102,36 @@ button:disabled {
   display: none;
 }
 
-.alert-icon {
-  width: 20px;
+.relposition {
   position: relative;
-  left: 0px;
-  top: 4px;
+}
+
+.action-required-btn {
+  display:none;
+  position: relative;
+  
+}
+
+.alert-icon-container {
+  background-color: rgb(255, 255, 255);
+  position: absolute;
+  right: .1%;
+  top: -5px;
+  line-height: 0px;
+  border: 1px solid rgb(75, 75, 75);
+  border-radius: 100%;
+}
+
+.alert-icon {
+  width: 15px;
+
+  filter: invert(27%) sepia(89%) saturate(4476%) hue-rotate(347deg) brightness(106%) contrast(99%);
+  
+}
+
+.note {
+  color: gray;
+  font-size: smaller;
 }
 
 .red {
@@ -218,7 +243,7 @@ button:disabled {
     text-align: right;
     text-decoration: none;
     list-style-type: none;
-    transform: translateX(-75%);
+    transform: translateX(-80%);
     
   }
 
@@ -226,14 +251,13 @@ button:disabled {
     display: inline-block;
     font-weight: bold;
     text-decoration: none;
-    width: 200px;
+    width: 250px;
     padding-top: .5em;
     padding-bottom: .5em;
     color: rgb(243, 243, 243);
     margin-bottom: 1em;
     padding-right: 5px;
-    background-image: linear-gradient(to right, rgba(248, 248, 248, 0), rgb(126, 126, 126));
-    background-image: linear-gradient(to right, rgba(248, 248, 248, 0), rgb(126, 126, 126) 60%, rgb(126, 126, 126) 99%, rgba(248, 248, 248, 0));
+    background-image: linear-gradient(to right, rgba(248, 248, 248, 0), rgba(126,126,126, 0) 30%, rgb(126, 126, 126) 60%, rgb(126, 126, 126) 99%, rgba(248, 248, 248, 0));
     animation: fadeIn linear .2s;
     -webkit-animation: fadeIn linear .2s;
     -moz-animation: fadeIn linear .2s;

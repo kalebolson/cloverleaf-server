@@ -106,17 +106,15 @@ button:disabled {
   position: relative;
 }
 
-.action-required-btn {
-  display:none;
+.btn-with-alert {
   position: relative;
-  
 }
 
 .alert-icon-container {
   background-color: rgb(255, 255, 255);
   position: absolute;
-  right: .1%;
-  top: -5px;
+  right: -5px;
+  top: -10px;
   line-height: 0px;
   border: 1px solid rgb(75, 75, 75);
   border-radius: 100%;

@@ -10,8 +10,7 @@ const Button = ({ text, className, btnLink, onClick, alert }) => {
             {alert ? 
             <div className="alert-icon-container">
                 <img src={alertIcon} alt="Notification Icon" className='alert-icon'/>
-            </div>  
-            : ''}
+            </div>  : ''}
             
         </a>
 

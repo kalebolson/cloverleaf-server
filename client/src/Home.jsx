@@ -1,7 +1,6 @@
 import './App.css';
 import { useState, useEffect } from 'react'
 import Divider from './components/Divider.jsx'
-import Header from './components/Header.jsx'
 import FixedListComboBox from './components/FixedListComboBox.jsx'
 import Welcome from './components/Welcome'
 import ProjectDetails from './components/ProjectDetails'
@@ -162,7 +161,6 @@ function Home(props) {
     <div className="home">
       <Welcome clientName={clientName}/>
       <FixedListComboBox projectList={projects} selected={project ? project['Project Name'] : ''} onChangeProject={changeProject} />
-      <Divider />
       <ProjectDetails project={project}/>
       <Divider />
       <FileContainer files={files}/> 

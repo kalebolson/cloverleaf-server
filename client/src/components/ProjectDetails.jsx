@@ -20,12 +20,26 @@ function ProjectDetails({ project }) {
     
         return (
             <div className="project-details">
-                <h4>Status: {status}</h4>
-                <h4>Type: {type}</h4>
-                <h4>Files: {fileCount}</h4>
-                <h4>Due Date: {dueDate} <em>{(daysLeft && ` (${daysLeft} days remaining)`)}</em></h4>
-                <h4>Notes: </h4>
-                <br /><p>{notes}</p>
+                <div>
+                    <h4>Status:</h4> 
+                    <p>{status}</p>  
+                </div>
+                <div>
+                    <h4>Type:</h4> 
+                    <p>{type}</p>
+                </div>
+                <div>
+                    <h4>Files:</h4> 
+                    <p>{fileCount}</p>
+                </div>
+                <div>
+                <h4>Due Date:</h4> 
+                <p>{dueDate} <em>{(daysLeft && ` (${daysLeft} days remaining)`)}</em></p>
+                </div>
+                <div>
+                    <h4>Notes: </h4>
+                    <p>{notes}</p>
+                </div>
             </div>
         )
     }   

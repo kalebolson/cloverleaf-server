@@ -18,12 +18,13 @@ function FixedListComboBox({ projectList, selected, onChangeProject }) {
     })   
 
     return (
-        <div>
-            <label htmlFor="projectSelector">Project:</label>
+        <div className="project-selector-container">
+            <label className="project-selector-label" htmlFor="projectSelector">Project:</label>
             <select 
                 name="projectSelector" 
                 id="projectSelector"
                 onChange={onChangeProject}
+                className="project-selector-list"
             >
             {options}
             </select>

@@ -1,6 +1,6 @@
 
 
-function FixedListComboBox({ projectList, selected, onChangeProject }) {
+function ProjectList({ projectList, selected, onChangeProject }) {
 
     console.log(projectList)
     const options = projectList.map((project) => {
@@ -18,13 +18,13 @@ function FixedListComboBox({ projectList, selected, onChangeProject }) {
     })   
 
     return (
-        <div className="project-selector-container">
-            <label className="project-selector-label" htmlFor="projectSelector">Project:</label>
+        <div className="selector-container">
+            <label className="selector-label" htmlFor="projectSelector">Project:</label>
             <select 
                 name="projectSelector" 
                 id="projectSelector"
                 onChange={onChangeProject}
-                className="project-selector-list"
+                className="selector-list"
             >
             {options}
             </select>
@@ -32,4 +32,4 @@ function FixedListComboBox({ projectList, selected, onChangeProject }) {
     )
 }
 
-export default FixedListComboBox
+export default ProjectList

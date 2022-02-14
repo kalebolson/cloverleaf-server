@@ -61,16 +61,16 @@ const Header = (props) => {
 
     const issueReportContent = (
         <div className="report-issue-content">
-            <form onSubmit={submitIssueReport}>
-                <label htmlFor="description">Tell us what went wrong, or suggest an improvement!</label><br />
-                <textarea className='issue-desc-box' name="description" cols="30" rows="10" value={issueDescription} onChange={(e) => {setIssueDescription(e.target.value)}}></textarea><br />
-                <label className='issue-report-checkbox' htmlFor="letdevcontact">Allow site developer to contact me via email:</label>
-                <input type="checkbox" name='letdevcontact' checked={issueCheckboxChecked} onChange={(e) => {setIssueCheckboxChecked(!issueCheckboxChecked)}}/><br />
+            <form className='report-issue-form' onSubmit={submitIssueReport}>
+                <label htmlFor="description" className='issue-desc-label blue bold'>Issue Report:</label><br />
+                <textarea className='issue-desc-box gray' placeholder='Tell us what went wrong, or suggest an improvement!' name="description" cols="30" rows="10" value={issueDescription} onChange={(e) => {setIssueDescription(e.target.value)}}></textarea><br />
+                <label className='let-dev-contact-label blue' htmlFor="letdevcontact">Allow site developer to contact me:</label><br />
+                <input className='let-dev-contact-checkbox' type="checkbox" name='letdevcontact' checked={issueCheckboxChecked} onChange={(e) => {setIssueCheckboxChecked(!issueCheckboxChecked)}}/><br />
                 {(issueCheckboxChecked & !props.token) 
-                    ? <label >Email:<input type="text" placeholder='Enter email address' onChange={(e) => setLoggedOutEmail(e.target.value)}/><br /></label>
+                    ? <label className='issue-report-email-label' >Email:<input type="text" placeholder='Enter email address' className='issue-report-email-box' onChange={(e) => setLoggedOutEmail(e.target.value)}/><br /></label>
                     : ''
                 }
-                <button className='submit-issue-btn'></button>
+                <Button text='Submit' className='mobile-btn orange-btn submit-issue-btn' onClick={submitIssueReport}/>
             </form>
         </div>
     )

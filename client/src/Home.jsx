@@ -1,7 +1,7 @@
 import './App.css';
 import { useState, useEffect } from 'react'
 import Divider from './components/Divider.jsx'
-import FixedListComboBox from './components/FixedListComboBox.jsx'
+import ProjectList from './components/ProjectList.jsx'
 import Welcome from './components/Welcome'
 import ProjectDetails from './components/ProjectDetails'
 import FileContainer from './components/FileContainer'
@@ -21,6 +21,7 @@ function Home(props) {
   const [newPW, setNewPW] = useState('')
   const [newPWConf, setNewPWConf] = useState('')
   const [alert, setAlert] = useState('')
+  const [notesPopUp, setNotesPopUp] = useState({fileName: '', notes: ''})
   
 
 
@@ -40,6 +41,9 @@ function Home(props) {
   }
   function closeAlert() {
     setAlert(false)
+  }
+  function closeNotesPopUp() {
+    setNotesPopUp({fileName: '', notes: ''})
   }
 
   const fetchName = async () => {
@@ -160,11 +164,11 @@ function Home(props) {
   return (
     <div className="home">
       <Welcome clientName={clientName}/>
-      <FixedListComboBox projectList={projects} selected={project ? project['Project Name'] : ''} onChangeProject={changeProject} />
+      <ProjectList projectList={projects} selected={project ? project['Project Name'] : ''} onChangeProject={changeProject} />
       <ProjectDetails project={project}/>
       <Divider />
-      <FileContainer files={files}/> 
-      <MobileFileContainer files={files}/>
+      <FileContainer files={files} setNotesPopUp={setNotesPopUp}/> 
+      <MobileFileContainer files={files} setNotesPopUp={setNotesPopUp}/>
       {props.changePwPopUp &&
         <PopUp 
         closeIcon={true}
@@ -177,6 +181,16 @@ function Home(props) {
         closeIcon={true}
         closePopUp={closeAlert}
         content={<h4>{alert}</h4>}
+      />}
+      {notesPopUp.notes && 
+      <PopUp 
+        closeIcon={true}
+        closePopUp={closeNotesPopUp}
+        content={
+        <div className='notes-popup-content'>
+          <h3 className='blue'><span className='italicized'>'{notesPopUp.fileName}'</span> notes:</h3>
+          <p className='notes-popup-notes'>{notesPopUp.notes}</p>
+        </div>}
       />}
     </div>
   );

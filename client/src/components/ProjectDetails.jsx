@@ -19,26 +19,30 @@ function ProjectDetails({ project }) {
         }
     
         return (
-            <div className="project-details">
-                <div>
-                    <h4>Status:</h4> 
-                    <p>{status}</p>  
+            <div className="item-details">
+                <div className="flex-column">
+                    <div>
+                        <h4>Status:</h4> 
+                        <p>{status}</p>  
+                    </div>
+                    <div>
+                        <h4>Type:</h4> 
+                        <p>{type}</p>
+                    </div>
+                    <div>
+                        <h4>Files:</h4> 
+                        <p>{fileCount}</p>
+                    </div>
                 </div>
-                <div>
-                    <h4>Type:</h4> 
-                    <p>{type}</p>
-                </div>
-                <div>
-                    <h4>Files:</h4> 
-                    <p>{fileCount}</p>
-                </div>
-                <div>
-                <h4>Due Date:</h4> 
-                <p>{dueDate} <em>{(daysLeft && ` (${daysLeft} days remaining)`)}</em></p>
-                </div>
-                <div>
-                    <h4>Notes: </h4>
-                    <p>{notes}</p>
+                <div className="flex-column column-2">
+                    <div>
+                        <h4>Due Date:</h4> 
+                        <p>{dueDate} <em>{(daysLeft && ` (${daysLeft} days remaining)`)}</em></p>
+                    </div>
+                    <div className="notesbox">
+                        <h4>Notes: </h4>
+                        <p>{notes}</p>
+                    </div>
                 </div>
             </div>
         )

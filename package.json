@@ -1,7 +1,7 @@
 {
   "name": "cloverleafportal",
   "version": "1.0.0",
-  "description": "Full MERN stack solution for CL clients",
+  "description": "Full stack solution for CL clients",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

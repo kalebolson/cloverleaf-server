@@ -1,0 +1,7 @@
+#!/bin/bash
+sudo yum update
+cd /home/ec2-user/cloverleaf-server
+npm i
+cd client
+npm i
+npm run build

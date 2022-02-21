@@ -27,7 +27,7 @@ jobs:
         cache: 'npm'
     - run: npm i
     - run: cd client && npm i
-    - run: cd client && npm run build
+    - run: CI=false cd client && npm run build
     #- run: npm test
     
   continuous-deployment:

@@ -1,7 +1,8 @@
 #!/bin/bash
 sudo yum update -y
+PATH="$PATH:/home/ec2-user/.nvm/versions/node/v16.14.0/bin:usr/lib"
 cd /home/ec2-user/app
-npm i
+sudo npm i
 cd client
-npm i
-npm run build
+sudo npm i
+sudo npm run build

@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo yum update -y
-export NPM="$(/home/ec2-user/.nvm/versions/v16.14.0/bin/nvm)"
+export NPM="$(/home/ec2-user/.nvm/versions/node/v16.14.0/bin/nvm)"
 cd /home/ec2-user/app
 $NPM i
 cd client

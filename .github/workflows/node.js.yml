@@ -49,7 +49,7 @@ jobs:
       id: deploy
       run: |
         aws deploy create-deployment \
-         --application-name application-name \ 
-         --deployment-group-name AppDeploymentGroupName \ 
+         --application-name cloverleaf-server \ 
+         --deployment-group-name cloverleaf-server-depgrp \ 
          --deployment-config-name CodeDeployDefault.OneAtATime \
-         --github-location repository= ${{ github.repository }},commitId= ${{ github.sha }}
+         --github-location repository=${{ github.repository }},commitId=${{ github.sha }}

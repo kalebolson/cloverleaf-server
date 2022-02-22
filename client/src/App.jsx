@@ -8,6 +8,8 @@ import useToken from './hooks/useToken'
 import Header from "./components/Header"
 import Divider from "./components/Divider"
 import backgroundImg from "./images/felix-cl.jpg"
+import LogRocket from 'logrocket';
+LogRocket.init('rky3ic/cloverleafportal');
 
 function App() { 
     const { token, setToken } = useToken()

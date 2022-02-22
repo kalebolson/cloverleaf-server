@@ -48,8 +48,4 @@ jobs:
     - name: Create CodeDeploy Deployment
       id: deploy
       run: |
-        aws deploy create-deployment \
-         --application-name cloverleaf-server \ 
-         --deployment-group-name cloverleaf-server-depgrp \ 
-         --deployment-config-name CodeDeployDefault.OneAtATime \
-         --github-location repository=${{ github.repository }},commitId=${{ github.sha }}
+        aws deploy create-deployment --application-name cloverleaf-server --deployment-group-name cloverleaf-server-depgrp --deployment-config-name CodeDeployDefault.OneAtATime --github-location repository=${{ github.repository }},commitId=${{ github.sha }}

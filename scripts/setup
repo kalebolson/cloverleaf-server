@@ -1,11 +1,8 @@
 #!/bin/bash
 sudo yum update -y
-export NPM="$(/home/ec2-user/.nvm/versions/node/v16.14.0/bin/npm)"
+PATH = "$PATH:/home/ec2-user/.nvm/versions/node/v16.14.0/bin"
 cd /home/ec2-user/app
-echo $PATH
-which npm 
-which node
-$NPM i
+npm i
 cd client
-$NPM i
-$NPM run build
+npm i
+npm run build

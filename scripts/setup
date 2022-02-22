@@ -1,6 +1,6 @@
 #!/bin/bash
 sudo yum update -y
-PATH = "$PATH:/home/ec2-user/.nvm/versions/node/v16.14.0/bin"
+PATH="$PATH:/home/ec2-user/.nvm/versions/node/v16.14.0/bin"
 cd /home/ec2-user/app
 npm i
 cd client

@@ -12,7 +12,7 @@ const base = new Airtable({apiKey: key}).base(baseID)
 // @desc    Attempt to authenticate entered credentials
 // @access  Public
 router.post('/', (req, res) => {
-    if (process.env.ENV == 'DEV'){
+    //if (process.env.ENV == 'DEV'){
         // Set up DB for storing creds
         // Check submitted creds against db, return {token: user ID (email prefix)} if email and password match
         Creds.find({ username: req.body.username })
@@ -33,11 +33,11 @@ router.post('/', (req, res) => {
         // return { token: false } if email found but password not found
         // If email is not found in DB, check for email address in airtable, and that the provided password is the default (either the email prefix or something like 'welcome1')
         // If so, save creds to db
-    }
-    else {
+    //}
+    //else {
         //TODO 
         //use dynamodb in prod environment using ../../dbconn/dbconn.js
-    }
+    //}
 
     // This is just the test setup
     // log("LOGIN", "Received request: "+JSON.stringify(req.body))

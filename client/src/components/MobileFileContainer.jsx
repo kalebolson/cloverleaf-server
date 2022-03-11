@@ -3,24 +3,28 @@ import { useState, useEffect } from 'react'
 import MobileFileContainerDetails from './MobileFileContainerDetails'
 import MobileFileContainerList from './MobileFileContainerList'
 
-function MobileFileContainer ({ files, setNotesPopUp }) {
-    const [file, setFile] = useState(files[0] || undefined)
-
-    const names = files.map((file) => file['title'])
+function MobileFileContainer (props) {
+    const [file, setFile] = useState(props.files[0] || undefined)
+    const names = props.files.map((file) => {
+        return { 
+            name: file['title'] + `${(file['version'] > 1) ? `(v.${file['version']})` : ''}`, 
+            id: file['id']
+        }
+    })
 
     async function changeFile(event) {
-        const file = await files.find(file => file['title'] === event.target.value)
+        const file = await props.files.find(file => file['id'] === event.target.value)
         setFile(file)
     }
 
     useEffect(() => {
-        setFile(files[0])
-    }, [files])
+        setFile(props.files[0])
+    }, [props.files])
 
     return (
         <div className='mobileOnly'>
-            {files ? <MobileFileContainerList names={names} onChangeFile={changeFile}/> : <div>Fetching Files...</div>}
-            {file && <MobileFileContainerDetails file={file} setNotesPopUp={setNotesPopUp}/>}
+            {props.files ? <MobileFileContainerList names={names} onChangeFile={changeFile}/> : <div>Fetching Files...</div>}
+            {file && <MobileFileContainerDetails file={file} setNotesPopUp={props.setNotesPopUp}/>}
         </div>
     )
 }

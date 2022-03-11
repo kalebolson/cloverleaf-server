@@ -24,7 +24,7 @@ const MobileMenu = ( { className, icon, onNavClick, links, navOpen, token, setTo
             {navOpen &&
                 <ul className='nav-list mobileOnly'>
                     <li className='nav-list-item'><a href={links["contactLink"]}>CONTACT</a></li>
-                    <li className='nav-list-item'><a href="#" onClick={(e) => {setReportIssuePopUp(e)}}>REPORT AN ISSUE</a></li>
+                    {/* <li className='nav-list-item'><a href="#" onClick={(e) => {setReportIssuePopUp(e)}}>REPORT AN ISSUE</a></li> */}
                     {token && <li className='nav-list-item'><a href="#" onClick={(e) => setChangePwPopUp(true)}>CHANGE PASSWORD</a></li>}
                     {token && <li className='nav-list-item'><a href="#" onClick={onSignOut}>SIGN OUT</a></li>}
                 </ul>

@@ -29,7 +29,6 @@ async function getUser (creds) {
 
     let allItems = await (await ddbClient.scan(params).promise()).Items
     let result = allItems.filter((item) => {
-        console.log("item:", item)
         return item.Email == creds.Email
     })[0]
 

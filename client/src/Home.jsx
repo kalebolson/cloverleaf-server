@@ -22,8 +22,6 @@ function Home(props) {
   const [newPWConf, setNewPWConf] = useState('')
   const [alert, setAlert] = useState('')
   const [notesPopUp, setNotesPopUp] = useState({fileName: '', notes: ''})
-  
-
 
   //Calls/Functions
   async function changeProject(event) {
@@ -108,7 +106,7 @@ function Home(props) {
       headers: {
           'Content-type': "application/json"
       },
-      body: JSON.stringify({ userId: props.token, oldPW, newPW })
+      body: JSON.stringify({ RecordID: props.token, oldPW, newPW })
     })
     console.log(response.body)
     if (response.status == 200){
@@ -147,7 +145,11 @@ function Home(props) {
       const res = await fetch(`api/files/at/${project['Record ID']}`)
       const data = await res.json()
       console.log(data)
-      const files = data.length === 0 ? [{title: '(no files found)'}] : data
+      let files = data.length === 0 ? [{title: '(no files found)'}] : data
+      files.sort((a, b) => {
+        return (+(a.title > b.title) || (a.title === b.title) - 1) ||
+          (+(a.version < b.version) || (a.version === b.version) - 1)
+      })
       setFiles(files)
     }
 

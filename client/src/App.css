@@ -183,6 +183,9 @@ button:disabled {
 }
 
 .file-table {
+  margin-left: 0;
+  margin-right: 0;
+  width: 100%;
   border: 2px outset #005877;
   border-radius: 1em;
 }

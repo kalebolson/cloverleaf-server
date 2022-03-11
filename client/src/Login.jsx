@@ -19,12 +19,17 @@ export default function Login (props) {
     const submitClicked = async (e) => {
         e.preventDefault()
         console.log("Submitting",email,password)
+        setInvalidCreds(false)
         const response = await checkCreds({
             email,
             password
         })
         !response.token ? setInvalidCreds(true) : setInvalidCreds(false)
-        props.setToken(response.token)
+        if (response.token){
+            props.setToken(response.token)
+        } else {
+            setInvalidCreds(true)
+        }
     }
     return (
         <div className="login-wrapper">

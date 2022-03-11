@@ -91,10 +91,9 @@ router.get('/at/:projectID', (req, res) => {
             let projectIDArray = record.fields.Project
             if (projectIDArray){
                 if(projectIDArray.includes(projectID)){
-                    results.push(record.fields)
+                    results.push({...record.fields, id: record.getId()})
                 }
             }
-            results.push(record.fields)
         })
         fetchNextPage()   
     }, (err) => {
@@ -112,7 +111,9 @@ router.get('/at/:projectID', (req, res) => {
                 deadline: obj['Client Review Deadline'],
                 notes: obj['Notes'],
                 link: obj['Client File URL'],
-                reviewLink: obj['Web App ID']
+                reviewLink: obj['Web App ID'],
+                version: obj['Version'],
+                id: obj['id']
                 }
                 return file
             })

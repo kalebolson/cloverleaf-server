@@ -9,9 +9,9 @@ async function saveUser (creds) {
     const params = {
         TableName: tableName,
         Item: {
-            "UserID": creds.UserID,
+            "RecordID": creds.RecordID,
             "PasswordHash": creds.PasswordHash,
-            "username": creds.username
+            "Email": creds.Email
         }
     }
 
@@ -23,11 +23,28 @@ async function getUser (creds) {
     const params = {
         TableName: tableName,
         Key: {
-            "UserID": creds.userID
+            "Email": creds.Email
+        }
+    }
+
+    let allItems = await (await ddbClient.scan(params).promise()).Items
+    let result = allItems.filter((item) => {
+        return item.Email == creds.Email
+    })[0]
+
+    return result
+}
+
+async function getUserByID (creds) {
+    const tableName = "CL-Users"
+    const params = {
+        TableName: tableName,
+        Key: {
+            "RecordID": creds.RecordID
         }
     }
     
-    return await ddbClient.get(params).promise()
+    return await (await ddbClient.get(params).promise()).Item
 }
 
 async function updateUserPassword (creds) {
@@ -35,7 +52,7 @@ async function updateUserPassword (creds) {
     const params = {
         TableName: tableName,
         Key: {
-            "UserID": creds.UserID
+            "RecordID": creds.RecordID
         },
         UpdateExpression: "set PasswordHash = :p",
         ExpressionAttributeValues: {
@@ -47,4 +64,4 @@ async function updateUserPassword (creds) {
     return await ddbClient.update(params).promise()
 }
 
-module.exports = { saveUser, getUser, updateUserPassword }
+module.exports = { saveUser, getUser, getUserByID, updateUserPassword }

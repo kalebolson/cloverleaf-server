@@ -2,3 +2,6 @@
 node_modules
 
 /logs
+/client/build
+
+/routes/api/*.json

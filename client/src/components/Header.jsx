@@ -86,11 +86,11 @@ const Header = (props) => {
                     text="CONTACT" 
                     btnLink={links["contactLink"]} 
                 />
-                <Button 
+                {/* <Button 
                     className="header-btns" 
                     text="REPORT AN ISSUE" 
                     onClick={(e) => setReportIssuePopUp(true)}
-                />
+                /> */}
                 {props.token && 
                 <Button 
                 className="header-btns"

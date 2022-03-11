@@ -1,9 +1,9 @@
 import React from 'react'
 
 function MobileFileContainerList ({ names, onChangeFile }) {
-        const options = names.map((name) => {
+        const options = names.map(({name, id}) => {
             name = (name.length < 30) ? name : name.substring(0, 27) + "..."
-            return(<option key={name} value={name}>{name}</option>)
+            return(<option key={id} value={id}>{name}</option>)
         })
         return (
             <div className='selector-container'>

@@ -61,26 +61,39 @@ router.delete('/:id', (req, res) => {
 }) 
 
 
-// @route   GET api/files/at/:email
-// @desc    Get all projects for a specific client from airtable (email address as key)
+// @route   GET api/files/at/:projectID
+// @desc    Get all files for a specific project from airtable (email address as key)
 // @access  Public
-router.get('/at/:email/:project', (req, res) => {
+router.get('/at/:projectID', (req, res) => {
     var results = []
 
     //This syntax is from airtable API documentation
     //eachPage() accepts a function to be applied to each page of the AT table,
     //then a function to execute after completion. This is evidently how they
     //recommend handling async requests 
-    base('File').select({
-        filterByFormula: 
-            `AND(
-                REGEX_MATCH({Client Email}, "^${req.params.email}"),
-                REGEX_MATCH({Project}, "^${req.params.project} for")
-            )`,
-        view: "Grid view"
+
+    // Same note as with projects query:
+    // I cannot get a filterByFormula to filter this stuff properly.
+    // The project ID is stored in an array in case there are ever multiple.
+    // Airtable doesn't seem to have a great way to search arrays for values
+    // so I am pulling all records and searching them, not ideal for performance
+
+    let projectID = req.params.projectID
+    base('Files').select({
+        //filterByFormula: 
+        //     `AND(
+        //         REGEX_MATCH({Client Email}, "^${req.params.email}"),
+        //         REGEX_MATCH({Project}, "^${req.params.project} for")
+        //     )`,
+        // view: "Grid view"
     }).eachPage(function page(records, fetchNextPage) {
         records.forEach((record) => {
-            results.push(record.fields)
+            let projectIDArray = record.fields.Project
+            if (projectIDArray){
+                if(projectIDArray.includes(projectID)){
+                    results.push({...record.fields, id: record.getId()})
+                }
+            }
         })
         fetchNextPage()   
     }, (err) => {
@@ -98,12 +111,14 @@ router.get('/at/:email/:project', (req, res) => {
                 deadline: obj['Client Review Deadline'],
                 notes: obj['Notes'],
                 link: obj['Client File URL'],
-                reviewLink: obj['Web App ID']
+                reviewLink: obj['Web App ID'],
+                version: obj['Version'],
+                id: obj['id']
                 }
                 return file
             })
             res.json(respObj)
-            log('AIRTABLE', JSON.stringify(results))
+            //log('AIRTABLE', JSON.stringify(results))
             log('API-SUCC', JSON.stringify(respObj))
         }
     })

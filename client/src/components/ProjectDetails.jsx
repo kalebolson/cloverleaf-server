@@ -5,7 +5,7 @@ function ProjectDetails({ project }) {
         var type = project['Type'] || 'N/A'
         var fileCount = project['File Count'] || 'N/A'
         var dueDate = parseDate(project['Due Date']) || 'N/A'
-        var daysLeft = project['Days Until Due'] || ''
+        var daysLeft = ((typeof project['Days Until Due'] === "number") || (typeof project['Days Until Due'] === "string")) || ''
         var notes = project['Notes'] || '(No Notes)'
     
         function parseDate(dueDate){
@@ -37,7 +37,7 @@ function ProjectDetails({ project }) {
                 <div className="flex-column column-2">
                     <div>
                         <h4>Due Date:</h4> 
-                        <p>{dueDate} <em>{(daysLeft && ` (${daysLeft} days remaining)`)}</em></p>
+                        <p>{dueDate} <em>{(daysLeft != '' ? ` (${daysLeft} days remaining)` : '')}</em></p>
                     </div>
                     <div className="notesbox">
                         <h4>Notes: </h4>

@@ -12,19 +12,24 @@ async function checkCreds(creds){
 }
 
 export default function Login (props) {
-    const [username, setUsername] = useState()
+    const [email, setEmail] = useState()
     const [password, setPassword] = useState()  
     const [invalidCreds, setInvalidCreds] = useState()
 
     const submitClicked = async (e) => {
         e.preventDefault()
-        console.log("Submitting",username,password)
-        const token = await checkCreds({
-            username,
+        console.log("Submitting",email,password)
+        setInvalidCreds(false)
+        const response = await checkCreds({
+            email,
             password
         })
-        !token.username ? setInvalidCreds(true) : setInvalidCreds(false)
-        props.setToken(token)
+        !response.token ? setInvalidCreds(true) : setInvalidCreds(false)
+        if (response.token){
+            props.setToken(response.token)
+        } else {
+            setInvalidCreds(true)
+        }
     }
     return (
         <div className="login-wrapper">
@@ -33,7 +38,7 @@ export default function Login (props) {
             <form onSubmit={submitClicked}>
                 <label>
                     <p>Email Address</p>
-                    <input type="text" onChange={(e) => setUsername(e.target.value)} />
+                    <input type="text" onChange={(e) => setEmail(e.target.value)} />
                 </label>
                 <label>
                     <p>Password</p>

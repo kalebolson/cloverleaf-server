@@ -14,7 +14,7 @@ export default function useToken() {
         console.log("setting token",userToken, "to session storage")
         sessionStorage.setItem('token', JSON.stringify(userToken))
         console.log("setting token",userToken,"to local storage")
-        setToken(userToken.token)
+        setToken(userToken)
     }
 
     return {

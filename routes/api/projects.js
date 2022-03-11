@@ -68,21 +68,33 @@ router.delete('/:id', (req, res) => {
 }) 
 
 // @route   GET api/projects/at/:email
-// @desc    Get all projects for a specific client from airtable (email address as key)
+// @desc    Get all projects for a specific client from airtable 
 // @access  Public
-router.get('/at/:email', (req, res) => {
+router.get('/at/:recid', (req, res) => {
     var results = []
     //This syntax is from airtable API documentation
     //eachPage() accepts a function to be applied to each page of the AT table,
     //then a function to execute after completion. This is evidently how they
     //recommend handling async requests 
+    
+    // I cannot get a filterByFormula to filter this stuff properly.
+    // The client ID is stored in an array in case there are ever multiple clients.
+    // Airtable doesn't seem to have a great way to search arrays for values
+    // so I am pulling all records and searching them, probably not ideal for performance
+
+    let RecordID = req.params.recid
     base('Projects').select({
-        filterByFormula: `REGEX_MATCH({Client Email}, "^${req.params.email}")`,
-        view: "Grid view"
+        //filterByFormula: `REGEX_MATCH(ARRAYJOIN({Client}, ","), "/${req.params.recid}/")`
+        //view: "Grid view"
     }).eachPage(function page(records, fetchNextPage) {
+        console.log(records)
         records.forEach((record) => {
-            results.push(record.fields)
-            
+            let clientIDArray = record.fields.Client
+            if (clientIDArray){
+                if (clientIDArray.includes(RecordID)){
+                    results.push({...record.fields, "Record ID": record.id})
+                }
+            }
         })
         fetchNextPage()   
     }, (err) => {

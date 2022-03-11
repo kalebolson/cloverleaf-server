@@ -125,7 +125,7 @@ function Home(props) {
   useEffect(() => {
     const getName = async () => {
       const nameFromServer = await fetchName()
-      setClientName(nameFromServer)
+      setClientName(nameFromServer.name)
     }
     const getProjects = async () => {
       const projectsFromServer = await fetchProjects()
@@ -144,7 +144,7 @@ function Home(props) {
     }
 
     const getFiles = async () => {
-      const res = await fetch(`api/files/at/${props.token}/${project['Project Name']}`)
+      const res = await fetch(`api/files/at/${project['Record ID']}`)
       const data = await res.json()
       console.log(data)
       const files = data.length === 0 ? [{title: '(no files found)'}] : data

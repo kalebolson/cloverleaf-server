@@ -5,8 +5,20 @@ function ProjectDetails({ project }) {
         var type = project['Type'] || 'N/A'
         var fileCount = project['File Count'] || 'N/A'
         var dueDate = parseDate(project['Due Date']) || 'N/A'
-        var daysLeft = ((typeof project['Days Until Due'] === "number") || (typeof project['Days Until Due'] === "string")) || ''
         var notes = project['Notes'] || '(No Notes)'
+        var daysLeft = (
+                (typeof project['Days Until Due'] === "number") 
+                || (typeof project['Days Until Due'] === "string")
+            ) 
+            ?  project['Days Until Due']
+            : ''
+        if (typeof daysLeft === "string"){
+            daysLeft = parseInt(daysLeft)
+        }
+        var daysLeftString = daysLeft >= 0 
+            ? ` (${daysLeft} days remaining)`
+            : ` (${Math.abs(daysLeft)} days overdue)`
+        
     
         function parseDate(dueDate){
             if (dueDate){
@@ -17,6 +29,8 @@ function ProjectDetails({ project }) {
                 return false
             }
         }
+
+
     
         return (
             <div className="item-details">
@@ -37,7 +51,7 @@ function ProjectDetails({ project }) {
                 <div className="flex-column column-2">
                     <div>
                         <h4>Due Date:</h4> 
-                        <p>{dueDate} <em>{(daysLeft != '' ? ` (${daysLeft} days remaining)` : '')}</em></p>
+                        <p>{dueDate} <em>{(daysLeft != '' ? daysLeftString : '')}</em></p>
                     </div>
                     <div className="notesbox">
                         <h4>Notes: </h4>
@@ -49,7 +63,7 @@ function ProjectDetails({ project }) {
     }   
     else {
         return (
-            <div>Fetching Project...</div>
+            <div>(No Projects Found)</div>
         )
     }
 }

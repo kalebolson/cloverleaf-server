@@ -2,8 +2,9 @@ import React from 'react'
 import alertIcon from '../images/exclamation.svg'
 
 const Button = ({ text, className, btnLink, onClick, alert }) => {
+    const adjBtnLink = btnLink || ''
     return (
-        <a href={btnLink} className={alert ? 'btn-with-alert' : ''}>
+        <a href={adjBtnLink} target={!adjBtnLink.includes('amplifyapp.com') && '_blank'} className={alert ? 'btn-with-alert' : ''}>
             <button className={className} onClick={onClick}>
                 {text}
             </button>

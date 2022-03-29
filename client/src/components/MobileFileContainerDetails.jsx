@@ -6,6 +6,7 @@ function MobileFileContainerDetails({ file, setNotesPopUp }) {
     const showReviewBtn = (file.status === "Awaiting Client Review")
     const stage = file.stage || 'N/A'
     const status = file.status || 'N/A'
+    const version = file.version || 'N/A'
     const link = file.link || ''
     const reviewLink = file.reviewLink || ''
     const deadline = file.deadline || 'N/A'
@@ -20,6 +21,10 @@ function MobileFileContainerDetails({ file, setNotesPopUp }) {
             <div>
                 <h4>Status:</h4>
                 <p>{status}</p>
+            </div>  
+            <div>
+                <h4>Version:</h4>
+                <p>{version}</p>
             </div>  
             {longNotes
                 ? <div className='column-btn'>

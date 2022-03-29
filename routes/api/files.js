@@ -95,7 +95,11 @@ router.get('/at/:projectID', (req, res) => {
                 }
             }
         })
-        fetchNextPage()   
+        try{
+            fetchNextPage()
+        } catch (e) {
+            log("AT-ERR", e)
+        }  
     }, (err) => {
         if (err) {
             res.json(err)
@@ -104,12 +108,13 @@ router.get('/at/:projectID', (req, res) => {
         else {
             
             const respObj = results.map((obj) => {
+                const adjustedStatus = (obj['Status'].toUpperCase() === 'NEEDS ARCHIVING') ? 'Approved' : obj['Status']             
                 const file = {
                 title: obj['Title'],
                 stage: obj['Stage'],
-                status: obj['Status'],
+                status: adjustedStatus,
                 deadline: obj['Client Review Deadline'],
-                notes: obj['Notes'],
+                notes: obj['Message to client'],
                 link: obj['Client File URL'],
                 reviewLink: obj['Web App ID'],
                 version: obj['Version'],
@@ -117,6 +122,13 @@ router.get('/at/:projectID', (req, res) => {
                 }
                 return file
             })
+            .filter((obj) => ![
+                'AWAITING INTERNAL REVIEW',
+                'REQUEST CLIENT REVIEW',
+                'PRE-FILE',
+                'NEW VERSION AVAILABLE'
+            ].includes(obj.status.toUpperCase()))
+
             res.json(respObj)
             //log('AIRTABLE', JSON.stringify(results))
             log('API-SUCC', JSON.stringify(respObj))

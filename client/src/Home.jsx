@@ -15,6 +15,7 @@ function Home(props) {
   const [projects, setProjects] = useState([])
   const [clientName, setClientName] = useState()
   const [files, setFiles] = useState([{title: '(no files found)'}])
+  const [fileCount, setFileCount] = useState('N/A')
   const [initialRender, setInitialRender] = useState(true)
   
   const [oldPW, setOldPW] = useState('')
@@ -151,6 +152,7 @@ function Home(props) {
           (+(a.version < b.version) || (a.version === b.version) - 1)
       })
       setFiles(files)
+      setFileCount(files.length)
     }
 
     if (project){
@@ -167,7 +169,7 @@ function Home(props) {
     <div className="home">
       <Welcome clientName={clientName}/>
       <ProjectList projectList={projects} selected={project ? project['Project Name'] : ''} onChangeProject={changeProject} />
-      <ProjectDetails project={project}/>
+      <ProjectDetails project={project} fileCount={fileCount}/>
       <Divider />
       <FileContainer files={files} setNotesPopUp={setNotesPopUp}/> 
       <MobileFileContainer files={files} setNotesPopUp={setNotesPopUp}/>

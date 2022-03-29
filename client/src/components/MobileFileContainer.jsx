@@ -7,7 +7,7 @@ function MobileFileContainer (props) {
     const [file, setFile] = useState(props.files[0] || undefined)
     const names = props.files.map((file) => {
         return { 
-            name: file['title'] + `${(file['version'] > 1) ? `(v.${file['version']})` : ''}`, 
+            name: file['title'], // + `${(file['version'] > 1) ? `(v.${file['version']})` : ''}`, 
             id: file['id']
         }
     })

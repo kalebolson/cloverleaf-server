@@ -87,7 +87,6 @@ router.get('/at/:recid', (req, res) => {
         //filterByFormula: `REGEX_MATCH(ARRAYJOIN({Client}, ","), "/${req.params.recid}/")`
         //view: "Grid view"
     }).eachPage(function page(records, fetchNextPage) {
-        console.log(records)
         records.forEach((record) => {
             let clientIDArray = record.fields.Client
             if (clientIDArray){
@@ -96,8 +95,13 @@ router.get('/at/:recid', (req, res) => {
                 }
             }
         })
-        fetchNextPage()   
+        try{
+            fetchNextPage()
+        } catch (e) {
+            log("AT-ERR", e)
+        }
     }, (err) => {
+        
         if (err) {
             res.json(err)
             log('API-ERR', err)

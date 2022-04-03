@@ -13,15 +13,36 @@
 
 .background-img img {
   position: fixed;
-  width: 100%;
-  max-width: fit-content;
-  min-width: 100%;
   margin: 0 auto;
   right: 0;
   left: 0;
   z-index: -1;
-  -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
-  filter: grayscale(100%);
+  /* -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */ /* Uncomment for B+W filter */
+  /* filter: grayscale(100%); */ /* Uncomment for B+W filter */
+}
+
+/* 
+These media queries are here to retain background image aspect ratio,
+the image will always fill the entire screen and will never be stretched or squished.
+
+If another image is ever used, the aspect ratio of that image will need to be
+inserted into both of these queries in place of 3/2.
+
+Also, the min-width query is just a failsafe to prevent those img settings
+from applying to the mobile view.
+*/
+@media (min-aspect-ratio: 3/2) {
+  .background-img img {
+    min-height: 100%;
+    width: 100%;
+  }
+}
+
+@media (max-aspect-ratio: 3/2) and (min-width: 720px) {
+  .background-img img {
+    min-width: 100%;
+    height: 100%;
+  }
 }
 
 .gradient {
@@ -30,7 +51,7 @@
   margin: 0 auto;
   top: 0;
   right: 0;
-  background-image: radial-gradient(rgba(0, 0, 0, 0), #005877 80%);
+  /* background-image: radial-gradient(rgba(0, 0, 0, 0), #005877 80%); */ /* Uncomment for blue radial gradient overlay */
   height: 100vh;
   z-index: -1;
 }
@@ -354,9 +375,21 @@ button:disabled {
     /* min-height: 100vh;
     max-height: 100vh;
     width: auto; */
-    width: auto;
-    height: 100%;
-    position: relative;
+    height: 100vh;
+    left: -60%;
+    /* position: relative; */
+  }
+
+  .gradient {
+    position: fixed;
+    width: 100%;
+    margin: 0 auto;
+    top: 0;
+    right: 0;
+    /* Uncomment for blue radial gradient overlay */
+    /* background-image: radial-gradient(rgba(0, 0, 0, 0), #005877 90%); */
+    height: 100vh;
+    z-index: -1;
   }
 
   .header-btns {

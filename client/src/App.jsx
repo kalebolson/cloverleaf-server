@@ -7,7 +7,7 @@ import Login from "./Login"
 import useToken from './hooks/useToken'
 import Header from "./components/Header"
 import Divider from "./components/Divider"
-import backgroundImg from "./images/felix-cl.jpg"
+import backgroundImg from "./images/bg-img-record.jpg"
 import LogRocket from 'logrocket';
 LogRocket.init('rky3ic/cloverleafportal');
 

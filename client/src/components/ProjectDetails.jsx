@@ -49,10 +49,13 @@ function ProjectDetails({ project, fileCount }) {
                     </div>
                 </div>
                 <div className="flex-column column-2">
-                    <div>
-                        <h4>Due Date:</h4> 
-                        <p>{dueDate} <em>{(daysLeft ? daysLeftString : '')}</em></p>
-                    </div>
+                    {(status.toLowerCase() !== 'complete') 
+                    &&   <div>
+                            <h4>Due Date:</h4> 
+                            <p>{dueDate} <em>{(daysLeft ? daysLeftString : '')}</em></p>
+                        </div>
+                    }
+
                     <div className="notesbox">
                         <h4>Notes: </h4>
                         <p>{notes}</p>

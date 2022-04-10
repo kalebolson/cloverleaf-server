@@ -20,7 +20,8 @@ const Header = (props) => {
     }
     const links = {
         "bookLink": "https://square.site/appointments/book/5HSTX0GJE5TAN/cloverleaf-audio-visual-saint-paul-mn",
-        "contactLink": "https://www.cloverleaf.audio/contact"
+        "contactLink": "https://www.cloverleaf.audio/contact",
+        "feedbackLink": "https://airtable.com/shrpcOYNo1eqVfHmu"
     }
 
     function onSignOut() {
@@ -86,11 +87,11 @@ const Header = (props) => {
                     text="CONTACT" 
                     btnLink={links["contactLink"]} 
                 />
-                {/* <Button 
+                { <Button 
                     className="header-btns" 
-                    text="REPORT AN ISSUE" 
-                    onClick={(e) => setReportIssuePopUp(true)}
-                /> */}
+                    text="SUBMIT FEEDBACK" 
+                    btnLink={links["feedbackLink"]}
+                /> }
                 {props.token && 
                 <Button 
                 className="header-btns"
